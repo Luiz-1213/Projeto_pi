@@ -21,7 +21,7 @@ const validations = [
     .isLength({max: 255})
     .withMessage("O email não pode exceder 255 caracteres")
     .normalizeEmail(),
-
+    
   body("phone")
     .trim()
     .notEmpty()
