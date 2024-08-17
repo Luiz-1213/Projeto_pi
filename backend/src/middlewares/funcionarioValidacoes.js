@@ -18,8 +18,6 @@ const validations = [
     .withMessage("Email não pode estar vazio")
     .isEmail()
     .withMessage("Email deve ser válido")
-    .isLength({max: 255})
-    .withMessage("O email não pode exceder 255 caracteres")
     .normalizeEmail(),
     
   body("phone")
