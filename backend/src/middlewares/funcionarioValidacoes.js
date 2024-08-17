@@ -17,7 +17,7 @@ const validations = [
     .notEmpty()
     .withMessage("Email não pode estar vazio")
     .isEmail()
-    .withMessage("Email deve ser válido")
+    .withMessage("Email deve ser válido ")
     .normalizeEmail(),
     
   body("phone")
