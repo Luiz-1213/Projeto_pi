@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../data/conn"); // ajuste o caminho conforme necessário
+const sequelize = require("../config/database");
+const Funcionario = require("./Funcionario"); // Import do modelo Funcionario
 
 const Evento = sequelize.define(
   "Evento",
@@ -27,7 +28,10 @@ const Evento = sequelize.define(
     },
     funcionarioCadastro: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      references: {
+        model: Funcionario,
+        key: "idFuncionario",
+      },
     },
     dataCadastro: {
       type: DataTypes.DATEONLY,
@@ -39,5 +43,8 @@ const Evento = sequelize.define(
     timestamps: false,
   }
 );
+
+// Definição da associação
+Evento.belongsTo(Funcionario, { foreignKey: "funcionarioCadastro" });
 
 module.exports = Evento;
