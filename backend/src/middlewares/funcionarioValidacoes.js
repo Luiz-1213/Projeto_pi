@@ -27,40 +27,40 @@ const validacoesDeFuncionario = [
     .isInt({ min: 0 })
     .withMessage("Idade deve ser um número inteiro positivo"),
 
-  body("cpf")
-    .trim()
-    .notEmpty()
-    .withMessage("O CPF não pode estar vazio")
-    .isLength({ min: 11, max: 11 })
-    .withMessage("O CPF deve ter 11 dígitos")
-    .matches(/^\d{11}$/)
-    .withMessage("O CPF deve conter apenas números")
-    .custom((value) => {
-      // Função personalizada para validar o CPF
-      const cpf = value.replace(/\D/g, ""); // Remove caracteres não numéricos
-      let sum = 0;
-      let remainder;
+  // body("cpf")
+  //   .trim()
+  //   .notEmpty()
+  //   .withMessage("O CPF não pode estar vazio")
+  //   .isLength({ min: 11, max: 11 })
+  //   .withMessage("O CPF deve ter 11 dígitos")
+  //   .matches(/^\d{11}$/)
+  //   .withMessage("O CPF deve conter apenas números")
+  //   .custom((value) => {
+  //     // Função personalizada para validar o CPF
+  //     const cpf = value.replace(/\D/g, ""); // Remove caracteres não numéricos
+  //     let sum = 0;
+  //     let remainder;
 
-      if (cpf == "00000000000") return false;
+  //     if (cpf == "00000000000") return false;
 
-      for (let i = 1; i <= 9; i++)
-        sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-      remainder = (sum * 10) % 11;
+  //     for (let i = 1; i <= 9; i++)
+  //       sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+  //     remainder = (sum * 10) % 11;
 
-      if (remainder == 10 || remainder == 11) remainder = 0;
-      if (remainder != parseInt(cpf.substring(9, 10))) return false;
+  //     if (remainder == 10 || remainder == 11) remainder = 0;
+  //     if (remainder != parseInt(cpf.substring(9, 10))) return false;
 
-      sum = 0;
-      for (let i = 1; i <= 10; i++)
-        sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-      remainder = (sum * 10) % 11;
+  //     sum = 0;
+  //     for (let i = 1; i <= 10; i++)
+  //       sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+  //     remainder = (sum * 10) % 11;
 
-      if (remainder == 10 || remainder == 11) remainder = 0;
-      if (remainder != parseInt(cpf.substring(10, 11))) return false;
+  //     if (remainder == 10 || remainder == 11) remainder = 0;
+  //     if (remainder != parseInt(cpf.substring(10, 11))) return false;
 
-      return true;
-    })
-    .withMessage("O CPF informado é inválido"),
+  //     return true;
+  //   })
+  //   .withMessage("O CPF informado é inválido"),
 
   body("endereco")
     .trim()
@@ -74,7 +74,7 @@ const validacoesDeFuncionario = [
     .trim()
     .notEmpty()
     .withMessage("Telefone não pode estar vazio")
-    .isMobilePhone("pt-BR") // Adiciona o local para validar números brasileiros
+    .isMobilePhone("pt-BR")
     .withMessage("O número de celular deve ser válido"),
 
   body("cargo")
@@ -142,14 +142,13 @@ const validacoesDeFuncionario = [
     .isLength({ min: 8, max: 30 })
     .withMessage("As senhas não são iguais")
     .custom((value, { req }) => {
-      if (value !== req.body.password) {
+      if (value !== req.body.senha) {
         throw new Error("A senha e a confirmação devem ser iguais!");
       }
       return true;
     })
     .escape(),
 ];
-
 
 // Verificações de login de usuario
 const validacaoDelogin = [
@@ -160,6 +159,14 @@ const validacaoDelogin = [
     .isEmail()
     .withMessage("Email deve ser válido")
     .normalizeEmail(),
+
+  body("senha")
+    .trim()
+    .notEmpty()
+    .withMessage("O campo senha é obrigatório")
+    .isLength({ min: 8, max: 30 })
+    .withMessage("A senha deve ter entre 8 e 30 caracteres")
+    .escape(),
 ];
 
 function errosValidados(req, res, next) {

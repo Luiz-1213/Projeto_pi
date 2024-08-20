@@ -1,19 +1,22 @@
-const Funcionario = require("../models/Funcionario");
+const jwt = require("jsonwebtoken");
+const pegarToken = require("./pegarToken");
 
-function checkAdmin(req, res, token) {
-  if (!token) {
-    return res.status(403).json({ message: "Acesso negado" });
-  }
+const checkAdmin = async (req, res, next) => {
+  const token = pegarToken(req, res);
 
-  const usuario = Funcionario.findByPk(id);
+  const decoded = jwt.verify(token, process.env.SECRET_JWT);
 
-  if (usuario.tipoUsuario !== "Administrador") {
+  const permissao = decoded.tipoUsuario;
+  console.log(permissao);
+  console.log(permissao === "admin");
+
+  if (permissao === "admin") {
     return res
       .status(403)
-      .json({
-        message: "Somente administradores podem editar os dados do funcionário",
-      });
+      .json({ message: "Rota privada para administradores" });
+  } else {
+    next();
   }
-}
+};
 
-module.exports = { checkAdmin };
+module.exports = checkAdmin;

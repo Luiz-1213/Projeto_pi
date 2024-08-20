@@ -1,7 +1,11 @@
 const Funcionario = require("../models/Funcionario");
 const bcrypt = require("bcrypt");
 
+// Helpers
+const criarToken = require("../helpers/criarToken");
+
 module.exports = class FuncionarioController {
+  // ------------------------ criar funcionario
   static async criarFuncionario(req, res) {
     const {
       email,
@@ -65,6 +69,31 @@ module.exports = class FuncionarioController {
       });
   }
 
+  // login de funcionario
+  static async login(req, res) {
+    const { email, senha } = req.body;
+
+    const usuario = await Funcionario.findOne({
+      where: { email: email },
+    });
+
+    if (!usuario) {
+      return res.status(404).json({
+        message:
+          "Usúario não cadastrado, entre em contato com o Administrador!",
+      });
+    }
+
+    const verificarSenha = await bcrypt.compare(senha, usuario.senha);
+
+    if (!verificarSenha) {
+      return res.status(422).json({ message: "Senha inválida" });
+    }
+
+    criarToken(usuario, req, res);
+  }
+
+  // ------------------------ buscar todos
   static async buscarTodos(req, res) {
     const usuarios = await Funcionario.findAll({
       attributes: { exclude: ["senha", "tipoUsuario"] },
@@ -75,7 +104,7 @@ module.exports = class FuncionarioController {
     }
     res.status(200).json({ usuarios });
   }
-
+  // ------------------------ buscar um
   static async buscarPorId(req, res) {
     const id = req.params.id;
 
@@ -89,6 +118,7 @@ module.exports = class FuncionarioController {
     res.status(200).json({ usuario });
   }
 
+  // ------------------------ atualizar funcionario
   static async atualizarFuncionario(req, res) {
     // const verificarSeAdmim = checkAdmin(token);
 
@@ -166,7 +196,7 @@ module.exports = class FuncionarioController {
         res.status(500).json({ error: error });
       });
   }
-
+  // ------------------------ remover funcionario
   static async deletarFuncionario(req, res) {
     // const verificarSeAdmim = checkAdmin(token)
     const { id } = req.body;
