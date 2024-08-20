@@ -121,6 +121,7 @@ const validacoesDeFuncionario = [
 
   body("tipoUsuario")
     .trim()
+    .toLowerCase()
     .notEmpty()
     .withMessage("O campo não pode ser vazio")
     .isIn(["admin", "user"])

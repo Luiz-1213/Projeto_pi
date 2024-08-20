@@ -1,6 +1,6 @@
 const pegarToken = (req, res) => {
   if (!req.headers.authorization) {
-    return res.status(401).json({ message: "Acesso negado!" });
+    return null;
   }
 
   const autenticacao = req.headers.authorization;

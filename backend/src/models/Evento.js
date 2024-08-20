@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
-const Funcionario = require("./Funcionario"); // Import do modelo Funcionario
+const sequelize = require("../data/conn");
+const Funcionario = require("./Funcionario");
 
 const Evento = sequelize.define(
   "Evento",

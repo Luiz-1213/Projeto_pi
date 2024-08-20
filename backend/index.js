@@ -14,17 +14,14 @@ require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
 // routers
-const funcionarioRoutes = require("./src/routes/funcionarioRoutes")
-app.use("/func", funcionarioRoutes)
-
+const funcionarioRoutes = require("./src/routes/funcionarioRoutes");
+const eventoRoutes = require("./src/routes/eventoRoutes");
+app.use("/func", funcionarioRoutes);
+app.use("/evento", eventoRoutes);
 
 // porta do servidor
 const port = process.env.PORT;
-
-
-
 
 conn
   .sync()

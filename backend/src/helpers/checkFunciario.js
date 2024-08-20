@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const pegarToken = require("./pegarToken");
 
-const checkAdmin = (req, res, next) => {
+const checkFuncionario = (req, res, next) => {
   const token = pegarToken(req, res);
 
   if (!token) {
@@ -9,20 +9,19 @@ const checkAdmin = (req, res, next) => {
   }
 
   try {
-    const { tipoUsuario } = jwt.verify(token, process.env.SECRET_JWT);
+    const usuario = jwt.verify(token, process.env.SECRET_JWT);
+    const tipoUsuario = usuario.tipoUsuario;
 
-    console.log(tipoUsuario);
-
-    if (tipoUsuario !== "admin") {
+    if (tipoUsuario !== "funcionario" && tipoUsuario === "administrador") {
       return res
         .status(403)
         .json({ message: "Acesso negado. Apenas administradores." });
     }
-
+    req.usuario
     next();
   } catch (error) {
     return res.status(401).json({ message: "Token inválido" });
   }
 };
 
-module.exports = checkAdmin;
+module.exports = checkFuncionario;
