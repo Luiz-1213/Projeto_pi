@@ -33,14 +33,10 @@ const Evento = sequelize.define(
         key: "idFuncionario",
       },
     },
-    dataCadastro: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-    },
   },
   {
     tableName: "Eventos",
-    timestamps: false,
+    timestamps: true,
   }
 );
 

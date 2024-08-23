@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../data/conn");
 
 const Responsavel = sequelize.define(
@@ -8,6 +8,9 @@ const Responsavel = sequelize.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    foto: {
+      type: DataTypes.STRING(200),
     },
     email: {
       type: DataTypes.STRING(80),
@@ -33,12 +36,6 @@ const Responsavel = sequelize.define(
       type: DataTypes.STRING(200),
       allowNull: false,
     },
-    assuntoFeedback: {
-      type: DataTypes.STRING(200),
-    },
-    descricaoFeedback: {
-      type: DataTypes.STRING(200),
-    },
     genero: {
       type: DataTypes.STRING(20),
     },
@@ -60,22 +57,17 @@ const Responsavel = sequelize.define(
     dataNascimento: {
       type: DataTypes.DATE,
     },
-    satisfacao: {
-      type: DataTypes.FLOAT,
-    },
     contatoEmergencia: {
       type: DataTypes.STRING(100),
     },
-    dataCadastro: {
-      type: DataTypes.DATE,
-    },
     tipoUsuario: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.ENUM("admin", "funcionario", "responsavel", "pessoaTea"),
+      allowNull: false,
     },
   },
   {
     tableName: "Responsavel",
-    timestamps: false,
+    timestamps: true,
   }
 );
 

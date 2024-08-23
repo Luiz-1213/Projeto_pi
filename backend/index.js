@@ -17,14 +17,18 @@ app.use(express.json());
 // routers
 const funcionarioRoutes = require("./src/routes/funcionarioRoutes");
 const eventoRoutes = require("./src/routes/eventoRoutes");
+const responsavelRoutes = require("./src/routes/responsavelRoutes");
+const pessoaTeaRoutes = require("./src/routes/pessoaTeaRoutes");
 app.use("/func", funcionarioRoutes);
 app.use("/evento", eventoRoutes);
+app.use("/respon", responsavelRoutes);
+app.use("/tea", pessoaTeaRoutes);
 
 // porta do servidor
 const port = process.env.PORT;
 
 conn
-  .sync()
+  .sync({ force: false })
   .then(() => {
     app.listen(port);
   })

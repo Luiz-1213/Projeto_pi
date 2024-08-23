@@ -12,7 +12,6 @@ module.exports = class EventoController {
     //   dataCadastro,
     // } = req.body;
     
-    return console.log(req.usuario);
      
   }
 };

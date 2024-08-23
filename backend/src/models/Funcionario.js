@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../data/conn");
 
 const Funcionario = sequelize.define(
@@ -8,6 +8,9 @@ const Funcionario = sequelize.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    foto: {
+      type: DataTypes.STRING(200),
     },
     email: {
       type: DataTypes.STRING(80),
@@ -58,18 +61,14 @@ const Funcionario = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: true,
     },
-    dataCadastro: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     tipoUsuario: {
-      type: DataTypes.STRING(50),
-      allowNull: true,
+      type: DataTypes.ENUM("admin", "funcionario", "responsavel", "pessoaTea"),
+      allowNull: false,
     },
   },
   {
     tableName: "Funcionario",
-    timestamps: false,
+    timestamps: true,
   }
 );
 

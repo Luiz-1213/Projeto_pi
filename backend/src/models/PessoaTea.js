@@ -10,6 +10,9 @@ const PessoaTEA = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    foto: {
+      type: DataTypes.STRING(200),
+    },
     nome: {
       type: DataTypes.STRING(100),
       allowNull: false,
@@ -63,10 +66,8 @@ const PessoaTEA = sequelize.define(
       type: DataTypes.STRING(150),
     },
     presenca: {
-      type: DataTypes.INTEGER,
-    },
-    dataCadastro: {
-      type: DataTypes.DATE,
+      type: DataTypes.ENUM("regular", "ausente"),
+      allowNull: false,
     },
     pontuacaoProgressoInicial: {
       type: DataTypes.FLOAT,
@@ -75,7 +76,8 @@ const PessoaTEA = sequelize.define(
       type: DataTypes.FLOAT,
     },
     tipoUsuario: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.ENUM("admin", "funcionario", "responsavel", "pessoaTea"),
+      allowNull: false,
     },
     responsavel: {
       type: DataTypes.INTEGER,
@@ -87,7 +89,7 @@ const PessoaTEA = sequelize.define(
   },
   {
     tableName: "PessoaTEA",
-    timestamps: false,
+    timestamps: true,
   }
 );
 

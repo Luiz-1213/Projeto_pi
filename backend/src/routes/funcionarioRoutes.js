@@ -12,7 +12,7 @@ const {
 const checkAdmin = require("../helpers/checkAdmin");
 
 // controllers
-const FuncionarioController = require("../controllers/FuncionarioContreller");
+const FuncionarioController = require("../controllers/FuncionarioController");
 
 router.post(
   "/create",
