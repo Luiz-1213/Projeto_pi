@@ -185,7 +185,7 @@ module.exports = class FuncionarioController {
     };
 
     Funcionario.update(funcionario, {
-      where: { idFuncionario: id },
+      where: { id: id },
     })
       .then(() => {
         res.status(200).json({
@@ -207,7 +207,7 @@ module.exports = class FuncionarioController {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
 
-    await Funcionario.destroy({ where: { idFuncionario: id } })
+    await Funcionario.destroy({ where: { id: id } })
       .then(() => {
         res.status(200).json({ message: "Usuário removido com sucesso" });
       })

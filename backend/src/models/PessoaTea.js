@@ -5,7 +5,7 @@ const Responsavel = require("./Responsavel");
 const PessoaTEA = sequelize.define(
   "PessoaTEA",
   {
-    idPessoaTEA: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -83,7 +83,7 @@ const PessoaTEA = sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: "Responsavel",
-        key: "idResponsavel",
+        key: "id",
       },
     },
   },

@@ -4,7 +4,7 @@ const sequelize = require("../data/conn");
 const Funcionario = sequelize.define(
   "Funcionario",
   {
-    idFuncionario: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -62,7 +62,7 @@ const Funcionario = sequelize.define(
       allowNull: true,
     },
     tipoUsuario: {
-      type: DataTypes.ENUM("admin", "funcionario", "responsavel", "pessoaTea"),
+      type: DataTypes.ENUM("administrador", "funcionario", "responsavel", "pessoaTea"),
       allowNull: false,
     },
   },

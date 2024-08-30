@@ -11,13 +11,13 @@ const checkFuncionario = (req, res, next) => {
   try {
     const usuario = jwt.verify(token, process.env.SECRET_JWT);
     const tipoUsuario = usuario.tipoUsuario;
+    console.log(usuario.tipoUsuario);
 
-    if (tipoUsuario !== "funcionario" && tipoUsuario === "administrador") {
+    if (tipoUsuario !== "funcionario" && tipoUsuario !== "administrador") {
       return res
         .status(403)
         .json({ message: "Acesso negado. Apenas administradores." });
     }
-    req.usuario
     next();
   } catch (error) {
     return res.status(401).json({ message: "Token inválido" });

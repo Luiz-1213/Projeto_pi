@@ -5,6 +5,11 @@ const Responsavel = require("./Responsavel");
 const Feedback = sequelize.define(
   "Feedback",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     assuntoFeedback: {
       type: DataTypes.STRING(200),
       allowNull: false,
@@ -21,7 +26,7 @@ const Feedback = sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: "Responsavel",
-        key: "idResponsavel",
+        key: "id",
       },
       allowNull: false,
     },

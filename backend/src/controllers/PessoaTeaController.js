@@ -99,7 +99,7 @@ module.exports = class PessoaTEAController {
   // Atualizar Pessoa TEA
   static async atualizarPessoaTEA(req, res) {
     const {
-      idPessoaTea,
+      id,
       nome,
       foto,
       idade,
@@ -126,7 +126,7 @@ module.exports = class PessoaTEAController {
     } = req.body;
 
     // Verificar se a Pessoa TEA existe
-    const usuarioExiste = await PessoaTEA.findByPk(idPessoaTea);
+    const usuarioExiste = await PessoaTEA.findByPk(id);
     if (!usuarioExiste) {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
@@ -159,7 +159,7 @@ module.exports = class PessoaTEAController {
     };
 
     PessoaTEA.update(pessoaTea, {
-      where: { idPessoaTea: idPessoaTea },
+      where: { id: id },
     })
       .then(() => {
         res.status(200).json({
@@ -182,7 +182,7 @@ module.exports = class PessoaTEAController {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
 
-    await PessoaTEA.destroy({ where: { idPessoaTea: id } })
+    await PessoaTEA.destroy({ where: { id: id } })
       .then(() => {
         res.status(200).json({ message: "Usuário removido com sucesso" });
       })

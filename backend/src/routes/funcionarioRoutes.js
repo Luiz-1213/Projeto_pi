@@ -16,7 +16,7 @@ const FuncionarioController = require("../controllers/FuncionarioController");
 
 router.post(
   "/create",
-  checkAdmin,
+  // checkAdmin,
   validacoesDeFuncionario,
   errosValidados,
   FuncionarioController.criarFuncionario

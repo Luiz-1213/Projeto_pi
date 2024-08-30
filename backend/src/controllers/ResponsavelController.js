@@ -131,7 +131,7 @@ module.exports = class ResponsavelController {
     // const verificarSeAdmim = checkAdmin(token);
 
     const {
-      idResponsavel,
+      id,
       email,
       foto,
       senha,
@@ -151,7 +151,7 @@ module.exports = class ResponsavelController {
     } = req.body;
 
     // Verificar se o usuario existe
-    const usuarioExiste = await Responsavel.findByPk(idResponsavel);
+    const usuarioExiste = await Responsavel.findByPk(id);
     if (!usuarioExiste) {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
@@ -199,7 +199,7 @@ module.exports = class ResponsavelController {
     };
 
     Responsavel.update(responsavel, {
-      where: { idResponsavel: idResponsavel },
+      where: { id: id },
     })
       .then(() => {
         res.status(200).json({
@@ -221,7 +221,7 @@ module.exports = class ResponsavelController {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
 
-    await Responsavel.destroy({ where: { idResponsavel: id } })
+    await Responsavel.destroy({ where: { id: id } })
       .then(() => {
         res.status(200).json({ message: "Usuário removido com sucesso" });
       })

@@ -1,18 +1,15 @@
-
 const { body, validationResult } = require("express-validator");
-
 
 // Verificações de registro de evento
 const validacoesDeEvento = [
- body("assunto")
+  body("assunto")
     .trim()
     .notEmpty()
     .withMessage("Digite qual o titulo do evento")
     .isLength({ min: 5, max: 10 })
     .withMessage("O titulo deve ter entre 5 e 10 caracteres"),
 
-
- body("descricao")
+  body("descricao")
     .trim()
     .notEmpty()
     .withMessage("A descrição do evento não pode estar vazia")
@@ -21,25 +18,26 @@ const validacoesDeEvento = [
     .escape()
     .toLowerCase(),
 
-
- body("horario")
+  body("horario")
     .trim()
     .notEmpty()
     .withMessage("O campo de horário é obrigatório")
     .matches(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
     .withMessage("O horário deve estar no formato HH:MM (24 horas)"),
 
-
-    body("local")
+  body("local")
     .trim()
     .notEmpty()
     .withMessage("O endereço não pode estar vazio")
-    .matches(/^[^\d\s,]+,\s*\d+\s*,\s*[^\d\s,]+\s*,\s*[^\d\s,]+\s*,\s*[A-Z]{2}$/)
-    .withMessage("O endereço deve estar no formato: Rua, Número, Bairro, Cidade, UF")
+    .matches(
+      /^[^\d\s,]+,\s*\d+\s*,\s*[^\d\s,]+\s*,\s*[^\d\s,]+\s*,\s*[A-Z]{2}$/
+    )
+    .withMessage(
+      "O endereço deve estar no formato: Rua, Número, Bairro, Cidade, UF"
+    )
     .escape(),
 
-    
-    body("funcionarioCadastro")
+  body("funcionarioCadastro")
     .trim()
     .notEmpty()
     .withMessage("Nome não pode estar vazio")
@@ -51,14 +49,13 @@ const validacoesDeEvento = [
 ];
 
 function errosValidados(req, res, next) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array()[0] });
-    }
-    next();
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array()[0] });
   }
-  module.exports = {
-    validacoesDeEvento,
-    errosValidados,
-  };
-
+  next();
+}
+module.exports = {
+  validacoesDeEvento,
+  errosValidados,
+};

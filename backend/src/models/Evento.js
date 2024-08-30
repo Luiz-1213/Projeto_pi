@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../data/conn");
 const Funcionario = require("./Funcionario");
+const Responsavel = require("./Responsavel");
 
 const Evento = sequelize.define(
   "Evento",
@@ -14,13 +15,17 @@ const Evento = sequelize.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    descricao: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
+    dataEvento: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
     },
     horario: {
       type: DataTypes.TIME,
       allowNull: false,
+    },
+    descricao: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
     },
     local: {
       type: DataTypes.STRING(200),
@@ -30,17 +35,36 @@ const Evento = sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: Funcionario,
-        key: "idFuncionario",
+        key: "id",
       },
     },
   },
   {
     tableName: "Eventos",
-    timestamps: true,
+    timestamps: false,
   }
 );
 
 // Definição da associação
 Evento.belongsTo(Funcionario, { foreignKey: "funcionarioCadastro" });
+Evento.belongsToMany(Responsavel, {
+  through: {
+    model: "responsavel_has_eventos",
+    foreignKey: "eventos_idEvento",
+  },
+  as: "Responsaveis",
+  timestamps: false,
+  onDelete: "CASCADE",
+});
+
+Responsavel.belongsToMany(Evento, {
+  through: {
+    model: "responsavel_has_eventos",
+    foreignKey: "responsavel_id",
+  },
+  as: "Eventos",
+  timestamps: false,
+  onDelete: "CASCADE",
+});
 
 module.exports = Evento;

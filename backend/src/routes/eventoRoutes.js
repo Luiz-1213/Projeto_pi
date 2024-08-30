@@ -10,23 +10,9 @@ const checkFuncionario = require("../helpers/checkFunciario");
 const EventoController = require("../controllers/EventoController");
 
 router.post("/create", checkFuncionario, EventoController.criarEvento);
-
-// router.post(
-//   "/login",
-//   validacaoDelogin,
-//   errosValidados,
-//   FuncionarioController.login
-// );
-
-// router.patch(
-//   "/update",
-//   checkAdmin,
-//   validacoesDeFuncionario,
-//   errosValidados,
-//   FuncionarioController.atualizarFuncionario
-// );
-// router.get("/findone/:id", checkAdmin, FuncionarioController.buscarPorId);
-// router.get("/findall", checkAdmin, FuncionarioController.buscarTodos);
-// router.delete("/remove", checkAdmin, FuncionarioController.deletarFuncionario);
+router.get("/findone/:id", checkFuncionario, EventoController.buscarPorId);
+router.get("/findall", checkFuncionario, EventoController.buscarTodos);
+router.patch("/edit", checkFuncionario, EventoController.atualizarEvento);
+router.delete("/remove", checkFuncionario, EventoController.deletarEvento);
 
 module.exports = router;

@@ -124,7 +124,7 @@ const validacoesDeFuncionario = [
     .toLowerCase()
     .notEmpty()
     .withMessage("O campo não pode ser vazio")
-    .isIn(["admin", "user"])
+    .isIn(["administrador", "funcionario", "responsavel", "pessoaTea"])
     .withMessage("O campo deve ser apenas admin ou user")
     .escape(),
 

@@ -1,10 +1,11 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("../data/conn");
+
 
 const Responsavel = sequelize.define(
   "Responsavel",
   {
-    idResponsavel: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -70,5 +71,6 @@ const Responsavel = sequelize.define(
     timestamps: true,
   }
 );
+
 
 module.exports = Responsavel;

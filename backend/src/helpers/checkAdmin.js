@@ -11,9 +11,7 @@ const checkAdmin = (req, res, next) => {
   try {
     const { tipoUsuario } = jwt.verify(token, process.env.SECRET_JWT);
 
-    console.log(tipoUsuario);
-
-    if (tipoUsuario !== "admin") {
+    if (tipoUsuario !== "administrador") {
       return res
         .status(403)
         .json({ message: "Acesso negado. Apenas administradores." });
