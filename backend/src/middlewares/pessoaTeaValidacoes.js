@@ -1,14 +1,14 @@
 const { body, validationResult } = require("express-validator");
 
 // Verificações de registro usuario
-const validacoesDeResponsavel = [
+const validacoes = [
   body("nome")
     .trim()
     .notEmpty()
     .withMessage("Nome não pode estar vazio")
     .isString()
-    .isLength({ min: 15 })
-    .withMessage("Nome deve ter pelo menos 15 caracteres")
+    .isLength({ min: 5 })
+    .withMessage("Nome deve ter pelo menos 5 caracteres")
     .escape()
     .toLowerCase(),
 
@@ -84,18 +84,22 @@ const validacoesDeResponsavel = [
     )
     .escape(),
 
-  body("  telefoneResponsavel")
+  body("telefoneResponsavel")
     .trim()
     .notEmpty()
-    .withMessage("Telefone Responsavel não pode estar vazio")
+    .withMessage("O contato de emergência não pode estar vazio")
+    .matches(/\(\d{2}\) \d{5}-\d{4}$/)
     .isMobilePhone("pt-BR")
-    .withMessage("O número de celular deve ser válido"),
+    .withMessage(
+      "O contato de emergência deve estar no formato (XX) XXXXX-XXXX"
+    )
+    .escape(),
 
   body("autorizacaoTratamento")
     .trim()
     .notEmpty()
     .withMessage("A autorização para tratamento não pode estar vazia")
-    .isIn(["Sim", "Não"])
+    .isIn([1, 0])
     .withMessage("A autorização para tratamento deve ser 'Sim' ou 'Não'")
     .escape(),
 
@@ -103,17 +107,14 @@ const validacoesDeResponsavel = [
     .trim()
     .notEmpty()
     .withMessage("O diagnóstico não pode estar vazio")
-    .isIn(["Diagnóstico 1", "Diagnóstico 2", "Diagnóstico 3"])
-    .withMessage(
-      "O diagnóstico deve ser um dos seguintes: Diagnóstico 1, Diagnóstico 2, Diagnóstico 3"
-    )
     .escape(),
 
   body("grauTEA")
     .trim()
     .notEmpty()
+    .toLowerCase()
     .withMessage("O grau de TEA não pode estar vazio")
-    .isIn(["Leve", "Moderado", "Grave"])
+    .isIn(["leve", "moderado", "grave"])
     .withMessage(
       "O grau de TEA deve ser um dos seguintes: Leve, Moderado, Grave"
     )
@@ -123,10 +124,10 @@ const validacoesDeResponsavel = [
     .trim()
     .notEmpty()
     .withMessage("O contato de emergência não pode estar vazio")
-    .matches(/^\+55 \(\d{2}\) \d{5}-\d{4}$/)
+    .matches(/\(\d{2}\) \d{5}-\d{4}$/)
     .isMobilePhone("pt-BR")
     .withMessage(
-      "O contato de emergência deve estar no formato +55 (XX) XXXXX-XXXX"
+      "O contato de emergência deve estar no formato (XX) XXXXX-XXXX"
     )
     .escape(),
 
@@ -141,7 +142,7 @@ const validacoesDeResponsavel = [
 
   body("observacao")
     .trim()
-    .optional() // Permite que o campo seja opcional
+    .optional()
     .isLength({ min: 5, max: 500 })
     .withMessage("A observação deve ter entre 5 e 500 caracteres")
     .escape(),
@@ -150,8 +151,8 @@ const validacoesDeResponsavel = [
     .trim()
     .notEmpty()
     .withMessage("A idade no momento do diagnóstico não pode estar vazia")
-    .isInt({ min: 0, max: 130 })
-    .withMessage("A idade deve ser um número inteiro entre 0 e 130")
+    .isInt({ min: 0, max: 100 })
+    .withMessage("A idade deve ser um número inteiro entre 0 e 100")
     .escape(),
 
   body("medicacao")
@@ -171,36 +172,6 @@ const validacoesDeResponsavel = [
     .isLength({ min: 1, max: 500 })
     .withMessage(
       "A frequência de uso da medicação deve ter entre 1 e 500 caracteres"
-    )
-    .escape(),
-
-  body("frequenciaUsoMedicacao")
-    .trim()
-    .notEmpty()
-    .withMessage("A frequência de uso da medicação não pode estar vazia")
-    .isInt({ min: 0, max: 100 })
-    .withMessage(
-      "A frequência de uso da medicação deve ser um valor entre 0 e 100%"
-    )
-    .escape(),
-
-  body("frequenciaUsoMedicacao")
-    .trim()
-    .notEmpty()
-    .withMessage("A frequência de uso da medicação não pode estar vazia")
-    .isInt({ min: 0, max: 100 })
-    .withMessage(
-      "A frequência de uso da medicação deve ser um valor entre 0 e 100%"
-    )
-    .escape(),
-
-  body("pontuacaoProgressoInicial")
-    .trim()
-    .notEmpty()
-    .withMessage("A pontuação do progresso inicial não pode estar vazia")
-    .isInt({ min: 0, max: 100 })
-    .withMessage(
-      "A pontuação do progresso inicial deve ser um valor entre 0 e 100"
     )
     .escape(),
 
@@ -229,8 +200,9 @@ const validacoesDeResponsavel = [
     .toLowerCase()
     .notEmpty()
     .withMessage("O campo não pode ser vazio")
-    .isIn(["administrador", "funcionario", "responsavel", "pessoaTea"])
-    .withMessage("O campo deve ser apenas admin ou user")
+    .toLowerCase()
+    .isIn(["administrador", "funcionario", "responsavel", "pessoatea"])
+    .withMessage("O campo deve ser estar dentro de Responsável ou PessoaTea")
     .escape(),
 ];
 
@@ -242,6 +214,6 @@ function errosValidados(req, res, next) {
   next();
 }
 module.exports = {
-  validacoesDeResponsavel,
+  validacoes,
   errosValidados,
 };

@@ -15,8 +15,8 @@ const validacoesDeResponsavel = [
     .notEmpty()
     .withMessage("Nome não pode estar vazio")
     .isString()
-    .isLength({ min: 15 })
-    .withMessage("Nome deve ter pelo menos 15 caracteres")
+    .isLength({ min: 5 })
+    .withMessage("Nome deve ter pelo menos 5 caracteres")
     .escape()
     .toLowerCase(),
 
@@ -116,7 +116,7 @@ const validacoesDeResponsavel = [
     .trim()
     .notEmpty()
     .withMessage("A autorização para tratamento não pode estar vazia")
-    .isIn(["Sim", "Não"])
+    .isIn([1, 0])
     .withMessage("A autorização para tratamento deve ser 'Sim' ou 'Não'")
     .escape(),
 
@@ -131,24 +131,22 @@ const validacoesDeResponsavel = [
     .trim()
     .notEmpty()
     .withMessage("O horário disponível não pode estar vazio")
-    .matches(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
-    .withMessage("O horário disponível deve estar no formato HH:MM (24 horas)")
     .escape(),
 
   body("dataNascimento")
     .trim()
     .notEmpty()
     .withMessage("A data de nascimento não pode estar vazia")
-    .isDate({ format: "YYYY-MM-DD", delimiters: ["-", "/"] })
+    .isDate({ format: "DD-MM-YYYY", delimiters: ["-", "/"] })
     .withMessage(
-      "A data de nascimento deve ser uma data válida no formato YYYY-MM-DD"
+      "A data de nascimento deve ser uma data válida no formato DD-MM-YYYY"
     ),
 
   body("contatoEmergencia")
     .trim()
     .notEmpty()
     .withMessage("O contato de emergência não pode estar vazio")
-    .matches(/^\+55 \(\d{2}\) \d{5}-\d{4}$/)
+    .matches(/^\(\d{2}\) \d{5}-\d{4}$/)
     .isMobilePhone("pt-BR")
     .withMessage(
       "O contato de emergência deve estar no formato +55 (XX) XXXXX-XXXX"
@@ -160,8 +158,8 @@ const validacoesDeResponsavel = [
     .toLowerCase()
     .notEmpty()
     .withMessage("O campo não pode ser vazio")
-    .isIn(["administrador", "funcionario", "responsavel", "pessoaTea"])
-    .withMessage("O campo deve ser apenas admin ou user")
+    .isIn(["responsavel"])
+    .withMessage("O campo deve ser apenas a responsável")
     .escape(),
 
   body("senha")

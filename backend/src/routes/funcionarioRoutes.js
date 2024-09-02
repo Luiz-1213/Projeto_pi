@@ -10,13 +10,15 @@ const {
 
 // helpers
 const checkAdmin = require("../helpers/checkAdmin");
+const { imageUpload } = require("../helpers/imageUpload");
 
 // controllers
 const FuncionarioController = require("../controllers/FuncionarioController");
 
 router.post(
   "/create",
-  // checkAdmin,
+  checkAdmin,
+  imageUpload.single("image"),
   validacoesDeFuncionario,
   errosValidados,
   FuncionarioController.criarFuncionario
@@ -32,6 +34,7 @@ router.post(
 router.patch(
   "/update",
   checkAdmin,
+  imageUpload.single("image"),
   validacoesDeFuncionario,
   errosValidados,
   FuncionarioController.atualizarFuncionario

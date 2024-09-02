@@ -5,9 +5,23 @@ const validacoesDeEvento = [
   body("assunto")
     .trim()
     .notEmpty()
-    .withMessage("Digite qual o titulo do evento")
-    .isLength({ min: 5, max: 10 })
-    .withMessage("O titulo deve ter entre 5 e 10 caracteres"),
+    .withMessage("Digite qual o título do evento")
+    .isLength({ min: 5, max: 25 })
+    .withMessage("O título deve ter entre 5 e 25 caracteres"),
+
+  body("horario")
+    .trim()
+    .notEmpty()
+    .withMessage("O campo de horário é obrigatório")
+    .matches(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
+    .withMessage("O horário deve estar no formato HH:MM (24 horas)"),
+
+  body("dataEvento")
+    .trim()
+    .notEmpty()
+    .withMessage("A data de nascimento não pode estar vazia")
+    .isDate({ format: "DD-MM-YYYY", delimiters: ["-", "/"] })
+    .withMessage("A data deve ser válida no formato DD-MM-YYYY"),
 
   body("descricao")
     .trim()
@@ -18,34 +32,18 @@ const validacoesDeEvento = [
     .escape()
     .toLowerCase(),
 
-  body("horario")
-    .trim()
-    .notEmpty()
-    .withMessage("O campo de horário é obrigatório")
-    .matches(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
-    .withMessage("O horário deve estar no formato HH:MM (24 horas)"),
-
   body("local")
     .trim()
     .notEmpty()
     .withMessage("O endereço não pode estar vazio")
-    .matches(
-      /^[^\d\s,]+,\s*\d+\s*,\s*[^\d\s,]+\s*,\s*[^\d\s,]+\s*,\s*[A-Z]{2}$/
-    )
-    .withMessage(
-      "O endereço deve estar no formato: Rua, Número, Bairro, Cidade, UF"
-    )
     .escape(),
 
-  body("funcionarioCadastro")
+  body("responsaveis")
     .trim()
     .notEmpty()
-    .withMessage("Nome não pode estar vazio")
-    .isString()
-    .isLength({ min: 15 })
-    .withMessage("Nome deve ter pelo menos 15 caracteres")
-    .escape()
-    .toLowerCase(),
+    .withMessage("O evento deve marcar ao menos 1 responsável")
+    .isInt()
+    .escape(),
 ];
 
 function errosValidados(req, res, next) {

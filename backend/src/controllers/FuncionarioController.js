@@ -17,11 +17,16 @@ module.exports = class FuncionarioController {
       telefone,
       cargo,
       dataNascimento,
-      qtdCadastroEvento,
       voluntario,
       dataCadastro,
       tipoUsuario,
     } = req.body;
+
+    let image = "";
+
+    if (req.file) {
+      image = req.file.filename;
+    }
 
     // Verificando se o email já existe
     const emailJaExiste = await Funcionario.findOne({
@@ -45,6 +50,7 @@ module.exports = class FuncionarioController {
     const senhaHash = await bcrypt.hash(senha, salt);
 
     const funcionario = {
+      foto: image,
       email,
       senha: senhaHash,
       nome,
@@ -54,7 +60,6 @@ module.exports = class FuncionarioController {
       telefone,
       cargo,
       dataNascimento,
-      qtdCadastroEvento,
       voluntario,
       dataCadastro,
       tipoUsuario,
@@ -62,7 +67,7 @@ module.exports = class FuncionarioController {
 
     Funcionario.create(funcionario)
       .then(() => {
-        res.status(200).json({ message: "Funcionario cadastrado com sucesso" });
+        res.status(200).json({ message: "Funcionário cadastrado com sucesso" });
       })
       .catch((error) => {
         res.status(500).json({ error: error });
@@ -145,6 +150,12 @@ module.exports = class FuncionarioController {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
 
+    let foto = "";
+
+    if (req.file) {
+      foto = req.file.filename;
+    }
+
     // Verificando se o email já existe
     const emailJaExiste = await Funcionario.findOne({
       where: { email: email },
@@ -169,6 +180,7 @@ module.exports = class FuncionarioController {
 
     // Criando objeto funcionario de update
     const funcionario = {
+      foto: foto,
       email,
       senha: senhaHash,
       nome,

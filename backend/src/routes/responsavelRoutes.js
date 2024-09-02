@@ -3,24 +3,48 @@ const router = express.Router();
 
 // middlewares de validação
 const {
-  validacoesDeFuncionario,
+  validacoesDeResponsavel,
   validacaoDelogin,
   errosValidados,
-} = require("../middlewares/funcionarioValidacoes");
+} = require("../middlewares/responsavelValidacoes");
 
 // helpers
-const checkAdmin = require("../helpers/checkAdmin");
+const checkFuncionario = require("../helpers/checkFunciario");
+const { imageUpload } = require("../helpers/imageUpload");
 
 // controllers
 const ResponsavelController = require("../controllers/ResponsavelController");
 
-router.post("/create", ResponsavelController.criarResponsavel);
+router.post(
+  "/create",
+  checkFuncionario,
+  imageUpload.single("image"),
+  validacoesDeResponsavel,
+  errosValidados,
+  ResponsavelController.criarResponsavel
+);
 
-router.post("/login", ResponsavelController.login);
+router.post(
+  "/login",
+  validacaoDelogin,
+  errosValidados,
+  ResponsavelController.login
+);
 
-router.patch("/update/", ResponsavelController.atualizarResponsavel);
-router.get("/findone/:id", ResponsavelController.buscarPorId);
-router.get("/findall", ResponsavelController.buscarTodos);
-router.delete("/remove/", ResponsavelController.deletarResponsavel);
+router.patch(
+  "/update/",
+  checkFuncionario,
+  imageUpload.single("image"),
+  validacoesDeResponsavel,
+  errosValidados,
+  ResponsavelController.atualizarResponsavel
+);
+router.get("/findone/:id", checkFuncionario, ResponsavelController.buscarPorId);
+router.get("/findall", checkFuncionario, ResponsavelController.buscarTodos);
+router.delete(
+  "/remove/",
+  checkFuncionario,
+  ResponsavelController.deletarResponsavel
+);
 
 module.exports = router;

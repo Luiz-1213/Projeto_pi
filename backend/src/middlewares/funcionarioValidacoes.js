@@ -15,8 +15,8 @@ const validacoesDeFuncionario = [
     .notEmpty()
     .withMessage("Nome não pode estar vazio")
     .isString()
-    .isLength({ min: 15 })
-    .withMessage("Nome deve ter pelo menos 15 caracteres")
+    .isLength({ min: 5 })
+    .withMessage("Nome deve ter pelo menos 5 caracteres")
     .escape()
     .toLowerCase(),
 
@@ -27,40 +27,44 @@ const validacoesDeFuncionario = [
     .isInt({ min: 0 })
     .withMessage("Idade deve ser um número inteiro positivo"),
 
-  // body("cpf")
-  //   .trim()
-  //   .notEmpty()
-  //   .withMessage("O CPF não pode estar vazio")
-  //   .isLength({ min: 11, max: 11 })
-  //   .withMessage("O CPF deve ter 11 dígitos")
-  //   .matches(/^\d{11}$/)
-  //   .withMessage("O CPF deve conter apenas números")
-  //   .custom((value) => {
-  //     // Função personalizada para validar o CPF
-  //     const cpf = value.replace(/\D/g, ""); // Remove caracteres não numéricos
-  //     let sum = 0;
-  //     let remainder;
+  body("cpf")
+    .trim()
+    .notEmpty()
+    .withMessage("O CPF não pode estar vazio")
+    .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/)
+    .withMessage("O CPF deve estar no formato XXX.XXX.XXX-XX")
+    .custom((value) => {
+      // Remove caracteres não numéricos
+      const cleanedValue = value.replace(/\D/g, "");
 
-  //     if (cpf == "00000000000") return false;
+      // Verifica se o CPF tem 11 dígitos
+      if (cleanedValue.length !== 11) {
+        throw new Error("O CPF deve conter 11 dígitos");
+      }
 
-  //     for (let i = 1; i <= 9; i++)
-  //       sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-  //     remainder = (sum * 10) % 11;
+      // Função de validação do CPF
+      const isValidCPF = (cpf) => {
+        // Função para verificar CPF
+        const checkDigit = (cpf, factor) => {
+          let sum = 0;
+          for (let i = 0; i < factor; i++) {
+            sum += cpf[i] * (factor + 1 - i);
+          }
+          const remainder = (sum * 10) % 11;
+          return remainder === 10 ? 0 : remainder;
+        };
 
-  //     if (remainder == 10 || remainder == 11) remainder = 0;
-  //     if (remainder != parseInt(cpf.substring(9, 10))) return false;
+        const cpfDigits = cpf.split("").map(Number);
+        const firstDigit = checkDigit(cpfDigits, 9);
+        const secondDigit = checkDigit(cpfDigits.concat(firstDigit), 10);
 
-  //     sum = 0;
-  //     for (let i = 1; i <= 10; i++)
-  //       sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-  //     remainder = (sum * 10) % 11;
+        return cpfDigits[9] === firstDigit && cpfDigits[10] === secondDigit;
+      };
 
-  //     if (remainder == 10 || remainder == 11) remainder = 0;
-  //     if (remainder != parseInt(cpf.substring(10, 11))) return false;
-
-  //     return true;
-  //   })
-  //   .withMessage("O CPF informado é inválido"),
+      return isValidCPF(cleanedValue);
+    })
+    .withMessage("O CPF informado é inválido")
+    .escape(),
 
   body("endereco")
     .trim()
@@ -73,9 +77,13 @@ const validacoesDeFuncionario = [
   body("telefone")
     .trim()
     .notEmpty()
-    .withMessage("Telefone não pode estar vazio")
+    .withMessage("O contato de emergência não pode estar vazio")
+    .matches(/\(\d{2}\) \d{5}-\d{4}$/)
     .isMobilePhone("pt-BR")
-    .withMessage("O número de celular deve ser válido"),
+    .withMessage(
+      "O telefone deve estar no formato (XX) XXXXX-XXXX"
+    )
+    .escape(),
 
   body("cargo")
     .trim()
@@ -85,47 +93,27 @@ const validacoesDeFuncionario = [
     .withMessage("O cargo deve ter pelo menos 5 caracteres")
     .escape(),
 
-  body("dataNascimento")
-    .trim()
-    .notEmpty()
-    .withMessage("A data de nascimento não pode estar vazia")
-    .isDate({ format: "YYYY-MM-DD", delimiters: ["-", "/"] })
-    .withMessage(
-      "A data de nascimento deve ser uma data válida no formato YYYY-MM-DD"
-    ),
-
-  body("qtdCadastroEvento")
-    .trim()
-    .notEmpty()
-    .withMessage("A quantidade de cadastros no evento não pode estar vazia")
-    .isInt({ min: 0 })
-    .withMessage(
-      "A quantidade de cadastros deve ser um número inteiro não negativo"
-    ),
-
   body("voluntario")
     .trim()
     .notEmpty()
     .withMessage("O campo voluntário não pode estar vazio")
-    .isIn(["sim", "não"])
+    .isIn([1, 0])
     .withMessage("O valor do campo voluntário deve ser 'sim' ou 'não'"),
 
-  body("dataCadastro")
+  body("dataNascimento")
     .trim()
     .notEmpty()
-    .withMessage("A data de cadastro não pode estar vazia")
-    .isDate({ format: "YYYY-MM-DD", delimiters: ["-", "/"] })
-    .withMessage(
-      "A data de cadastro deve ser uma data válida no formato YYYY-MM-DD"
-    ),
+    .withMessage("A data de nascimento não pode estar vazia")
+    .isDate("DD-MM-YYYY")
+    .withMessage("O valor da data deve ser DD-MM-YYYY"),
 
   body("tipoUsuario")
     .trim()
     .toLowerCase()
     .notEmpty()
     .withMessage("O campo não pode ser vazio")
-    .isIn(["administrador", "funcionario", "responsavel", "pessoaTea"])
-    .withMessage("O campo deve ser apenas admin ou user")
+    .isIn(["administrador", "funcionario"])
+    .withMessage("O campo deve ser apenas administrador ou funionario")
     .escape(),
 
   body("senha")

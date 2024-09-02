@@ -9,7 +9,6 @@ module.exports = class ResponsavelController {
   static async criarResponsavel(req, res) {
     const {
       email,
-      foto,
       senha,
       nome,
       idade,
@@ -49,9 +48,15 @@ module.exports = class ResponsavelController {
     const salt = await bcrypt.genSalt(10);
     const senhaHash = await bcrypt.hash(senha, salt);
 
+    let image = "";
+
+    if (req.file) {
+      image = req.file.filename;
+    }
+
     const responsavel = {
       email,
-      foto,
+      foto: image,
       senha: senhaHash,
       nome,
       idade,
@@ -128,12 +133,9 @@ module.exports = class ResponsavelController {
 
   // ------------------------ atualizar funcionario
   static async atualizarResponsavel(req, res) {
-    // const verificarSeAdmim = checkAdmin(token);
-
     const {
       id,
       email,
-      foto,
       senha,
       nome,
       idade,
@@ -178,10 +180,16 @@ module.exports = class ResponsavelController {
     const salt = await bcrypt.genSalt(10);
     const senhaHash = await bcrypt.hash(senha, salt);
 
+    let image = "";
+
+    if (req.file) {
+      image = req.file.filename;
+    }
+
     // Criando objeto responsável de update
     const responsavel = {
       email,
-      foto,
+      foto: image,
       senha: senhaHash,
       nome,
       idade,
@@ -212,7 +220,6 @@ module.exports = class ResponsavelController {
   }
   // ------------------------ remover responsável
   static async deletarResponsavel(req, res) {
-    // const verificarSeAdmim = checkAdmin(token)
     const { id } = req.body;
 
     // Verificar se o usuario existe

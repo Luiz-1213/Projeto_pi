@@ -14,6 +14,9 @@ require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Definindo diretorio publico
+app.use(express.static("public"));
+
 // routers
 const funcionarioRoutes = require("./src/routes/funcionarioRoutes");
 const eventoRoutes = require("./src/routes/eventoRoutes");

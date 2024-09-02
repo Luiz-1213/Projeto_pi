@@ -7,7 +7,6 @@ module.exports = class PessoaTEAController {
   static async criarPessoaTEA(req, res) {
     const {
       nome,
-      foto,
       idade,
       cpf,
       endereco,
@@ -31,6 +30,12 @@ module.exports = class PessoaTEAController {
       responsavel,
     } = req.body;
 
+    let image = "";
+
+    if (req.file) {
+      image = req.file.filename;
+    }
+
     // Verificando se o cpf já existe
     const cpfJaExiste = await PessoaTEA.findOne({
       where: { cpf: cpf },
@@ -41,7 +46,7 @@ module.exports = class PessoaTEAController {
 
     const pessoaTea = {
       nome,
-      foto,
+      foto: image,
       idade,
       cpf,
       endereco,
@@ -81,7 +86,7 @@ module.exports = class PessoaTEAController {
     if (!usuarios) {
       res.status(200).json({ message: "Não há Usuarios cadastrados" });
     }
-    res.status(200).json({ usuarios });
+    return res.status(200).json({ usuarios });
   }
   // Buscar por ID
   static async buscarPorId(req, res) {
@@ -93,7 +98,7 @@ module.exports = class PessoaTEAController {
       return res.status(400).json({ message: "Usuario não encontrada!" });
     }
 
-    res.status(200).json({ usuario });
+    return res.status(200).json({ usuario });
   }
 
   // Atualizar Pessoa TEA
@@ -101,7 +106,6 @@ module.exports = class PessoaTEAController {
     const {
       id,
       nome,
-      foto,
       idade,
       cpf,
       endereco,
@@ -125,6 +129,12 @@ module.exports = class PessoaTEAController {
       responsavel,
     } = req.body;
 
+    let image = "";
+
+    if (req.file) {
+      image = req.file.filename;
+    }
+
     // Verificar se a Pessoa TEA existe
     const usuarioExiste = await PessoaTEA.findByPk(id);
     if (!usuarioExiste) {
@@ -134,7 +144,7 @@ module.exports = class PessoaTEAController {
     // Criando objeto funcionario de update
     const pessoaTea = {
       nome,
-      foto,
+      foto: image,
       idade,
       cpf,
       endereco,
@@ -173,7 +183,6 @@ module.exports = class PessoaTEAController {
 
   // Deletar PessoaTEA
   static async deletarPessoaTEA(req, res) {
-    // const verificarSeAdmim = checkAdmin(token)
     const { id } = req.body;
 
     // Verificar se o usuario existe
