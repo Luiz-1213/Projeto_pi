@@ -131,7 +131,7 @@ module.exports = class ResponsavelController {
     res.status(200).json({ usuario });
   }
 
-  // ------------------------ atualizar funcionario
+  // ------------------------ atualizar
   static async atualizarResponsavel(req, res) {
     const {
       id,
@@ -162,7 +162,7 @@ module.exports = class ResponsavelController {
     const emailJaExiste = await Responsavel.findOne({
       where: { email: email },
     });
-    if (emailJaExiste) {
+    if (usuarioExiste.email !== email && emailJaExiste) {
       return res
         .status(400)
         .json({ message: "Email já está em uso, informe outro!" });
@@ -172,7 +172,7 @@ module.exports = class ResponsavelController {
     const cpfJaExiste = await Responsavel.findOne({
       where: { cpf: cpf },
     });
-    if (cpfJaExiste) {
+    if (usuarioExiste.cpf !== cpf && cpfJaExiste) {
       return res.status(400).json({ message: "O CPF já está cadastrado!" });
     }
 

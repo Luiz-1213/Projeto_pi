@@ -160,7 +160,7 @@ module.exports = class FuncionarioController {
     const emailJaExiste = await Funcionario.findOne({
       where: { email: email },
     });
-    if (emailJaExiste) {
+    if (usuarioExiste.email !== email && emailJaExiste) {
       return res
         .status(400)
         .json({ message: "Email já está em uso, informe outro!" });
@@ -170,7 +170,7 @@ module.exports = class FuncionarioController {
     const cpfJaExiste = await Funcionario.findOne({
       where: { cpf: cpf },
     });
-    if (cpfJaExiste) {
+    if (usuarioExiste.cpf !== cpf && cpfJaExiste) {
       return res.status(400).json({ message: "O CPF já está cadastrado!" });
     }
 

@@ -141,6 +141,14 @@ module.exports = class PessoaTEAController {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
 
+    // Verificar se o cpf já está cadastrado
+    const cpfJaExiste = await PessoaTEA.findOne({
+      where: { cpf: cpf },
+    });
+    if (usuarioExiste.cpf !== cpf && cpfJaExiste) {
+      return res.status(400).json({ message: "O CPF já está cadastrado!" });
+    }
+
     // Criando objeto funcionario de update
     const pessoaTea = {
       nome,
