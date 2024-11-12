@@ -17,10 +17,6 @@ const PessoaTEA = sequelize.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    idade: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     cpf: {
       type: DataTypes.STRING(14),
       allowNull: false,
@@ -29,13 +25,11 @@ const PessoaTEA = sequelize.define(
       type: DataTypes.STRING(200),
       allowNull: false,
     },
-    informacaoMedica: {
-      type: DataTypes.STRING(200),
+    dataNascimento: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
     genero: {
-      type: DataTypes.STRING(20),
-    },
-    telefoneResponsavel: {
       type: DataTypes.STRING(20),
     },
     autorizacaoTratamento: {
@@ -46,9 +40,6 @@ const PessoaTEA = sequelize.define(
     },
     grauTEA: {
       type: DataTypes.STRING(20),
-    },
-    contatoEmergencia: {
-      type: DataTypes.STRING(100),
     },
     comunicacao: {
       type: DataTypes.STRING(200),
@@ -65,20 +56,6 @@ const PessoaTEA = sequelize.define(
     frequenciaUsoMedicacao: {
       type: DataTypes.STRING(150),
     },
-    presenca: {
-      type: DataTypes.ENUM("regular", "ausente"),
-      allowNull: false,
-    },
-    pontuacaoProgressoInicial: {
-      type: DataTypes.FLOAT,
-    },
-    pontuacaoProgressoAtual: {
-      type: DataTypes.FLOAT,
-    },
-    tipoUsuario: {
-      type: DataTypes.ENUM("admin", "funcionario", "responsavel", "pessoaTea"),
-      allowNull: false,
-    },
     responsavel: {
       type: DataTypes.INTEGER,
       references: {
@@ -94,7 +71,7 @@ const PessoaTEA = sequelize.define(
 );
 
 // Definindo a associação
-PessoaTEA.belongsTo(Responsavel, { foreignKey: "responsavel" });
-Responsavel.hasMany(PessoaTEA, { foreignKey: "responsavel" });
+PessoaTEA.belongsTo(Responsavel, { foreignKey: "id", as: "Eesponsavel" });
+Responsavel.hasMany(PessoaTEA, { foreignKey: "responsavel", as: "PessoaTEA" });
 
 module.exports = PessoaTEA;

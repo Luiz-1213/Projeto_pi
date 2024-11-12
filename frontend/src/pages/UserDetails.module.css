@@ -1,0 +1,72 @@
+/* Container de background */
+.container_bg {
+  width: 1000px;
+  min-height: 500px;
+  max-height: 500px;
+  border-radius: 12px;
+  border: 1px solid var(#f0f0f2);
+  background-color: #fafafa;
+  box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.08),
+    0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  gap: 1.5rem;
+  overflow-y: scroll;
+}
+
+.sub_title {
+  color: #00304a;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.content {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.data {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Duas colunas de tamanho igual */
+  gap: 0.5rem; /* Espaçamento entre as linhas */
+  font-family: Arial, sans-serif;
+}
+
+.data p {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 1rem; /* Espaçamento vertical entre os parágrafos */
+  color: #676d89; /* Cor do texto */
+}
+
+.data a {
+  color: #00304a;
+  font-weight: 600;
+}
+
+.data a:hover {
+  font-weight: bold;
+}
+
+.data span {
+  padding-left: 0.5rem;
+  color: #333;
+}
+
+.full_width {
+  grid-column: span 2;
+}
+
+/* Botão de ação */
+.actions_container {
+  margin: 1rem auto;
+  display: flex;
+  gap: 1rem;
+}

@@ -4,7 +4,7 @@ const router = express.Router();
 // middlewares de validação
 const {
   validacoesDeFuncionario,
-  validacaoDelogin,
+  validacoesDeEdicaoDeFuncionario,
   errosValidados,
 } = require("../middlewares/funcionarioValidacoes");
 
@@ -18,29 +18,26 @@ const FuncionarioController = require("../controllers/FuncionarioController");
 router.post(
   "/create",
   checkAdmin,
-  imageUpload.single("image"),
+  imageUpload.single("foto"),
   validacoesDeFuncionario,
   errosValidados,
   FuncionarioController.criarFuncionario
 );
 
-router.post(
-  "/login",
-  validacaoDelogin,
-  errosValidados,
-  FuncionarioController.login
-);
-
 router.patch(
-  "/update",
+  "/update/:id",
   checkAdmin,
-  imageUpload.single("image"),
-  validacoesDeFuncionario,
+  imageUpload.single("foto"),
+  validacoesDeEdicaoDeFuncionario,
   errosValidados,
   FuncionarioController.atualizarFuncionario
 );
 router.get("/findone/:id", checkAdmin, FuncionarioController.buscarPorId);
 router.get("/findall", checkAdmin, FuncionarioController.buscarTodos);
-router.delete("/remove", checkAdmin, FuncionarioController.deletarFuncionario);
+router.delete(
+  "/remove/:id",
+  checkAdmin,
+  FuncionarioController.deletarFuncionario
+);
 
 module.exports = router;

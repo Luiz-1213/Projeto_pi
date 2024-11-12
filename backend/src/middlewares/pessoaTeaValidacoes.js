@@ -10,15 +10,19 @@ const validacoes = [
     .isLength({ min: 5 })
     .withMessage("Nome deve ter pelo menos 5 caracteres")
     .escape()
-    .toLowerCase(),
-
-  body("idade")
-    .trim()
-    .notEmpty()
-    .withMessage("Idade não pode estar vazia")
-    .isInt({ min: 0 })
-    .withMessage("Idade deve ser um número inteiro positivo"),
-
+    .customSanitizer((value) => {
+      if (value) {
+        return value
+          .toLowerCase() // Converte todo o texto para minúsculas
+          .split(" ") // Divide o texto em palavras
+          .map((word) => {
+            // Capitaliza a primeira letra de cada palavra e mantém o restante minúsculo
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          })
+          .join(" "); // Junta as palavras novamente
+      }
+      return value;
+    }),
   body("cpf")
     .trim()
     .notEmpty()
@@ -64,34 +68,27 @@ const validacoes = [
     .withMessage("O endereço não pode estar vazio")
     .isLength({ min: 10 })
     .withMessage("O endereço deve ter pelo menos 10 caracteres")
-    .escape(),
-
-  body("informacaoMedica")
-    .trim()
-    .notEmpty()
-    .withMessage("A informação médica não pode estar vazio")
-    .isLength({ min: 10, max: 1000 })
-    .withMessage("A informação médica deve ter entre 10 e 1000 caracteres")
-    .escape(),
-
+    .escape()
+    .customSanitizer((value) => {
+      if (value) {
+        return value
+          .toLowerCase() // Converte todo o texto para minúsculas
+          .split(" ") // Divide o texto em palavras
+          .map((word) => {
+            // Capitaliza a primeira letra de cada palavra e mantém o restante minúsculo
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          })
+          .join(" "); // Junta as palavras novamente
+      }
+      return value;
+    }),
   body("genero")
     .trim()
     .notEmpty()
     .withMessage("O gênero não pode estar vazio")
-    .isIn(["Masculino", "Feminino", "Não-Binário", "Outro"])
+    .isIn(["Masculino", "Feminino", "Outro"])
     .withMessage(
-      "O gênero deve ser um dos seguintes: Masculino, Feminino, Não-Binário, Outro"
-    )
-    .escape(),
-
-  body("telefoneResponsavel")
-    .trim()
-    .notEmpty()
-    .withMessage("O contato de emergência não pode estar vazio")
-    .matches(/\(\d{2}\) \d{5}-\d{4}$/)
-    .isMobilePhone("pt-BR")
-    .withMessage(
-      "O contato de emergência deve estar no formato (XX) XXXXX-XXXX"
+      "O gênero deve ser um dos seguintes: Masculino, Feminino, Outro"
     )
     .escape(),
 
@@ -112,22 +109,10 @@ const validacoes = [
   body("grauTEA")
     .trim()
     .notEmpty()
-    .toLowerCase()
     .withMessage("O grau de TEA não pode estar vazio")
-    .isIn(["leve", "moderado", "grave"])
+    .isIn(["Leve", "Moderado", "Grave"])
     .withMessage(
       "O grau de TEA deve ser um dos seguintes: Leve, Moderado, Grave"
-    )
-    .escape(),
-
-  body("contatoEmergencia")
-    .trim()
-    .notEmpty()
-    .withMessage("O contato de emergência não pode estar vazio")
-    .matches(/\(\d{2}\) \d{5}-\d{4}$/)
-    .isMobilePhone("pt-BR")
-    .withMessage(
-      "O contato de emergência deve estar no formato (XX) XXXXX-XXXX"
     )
     .escape(),
 
@@ -174,42 +159,12 @@ const validacoes = [
       "A frequência de uso da medicação deve ter entre 1 e 500 caracteres"
     )
     .escape(),
-
-  body("pontuacaoProgressoInicial")
-    .trim()
-    .notEmpty()
-    .withMessage("A pontuação do progresso inicial não pode estar vazia")
-    .isInt({ min: 0, max: 100 })
-    .withMessage(
-      "A pontuação do progresso inicial deve ser um valor entre 0 e 100"
-    )
-    .escape(),
-
-  body("pontuacaoProgressoAtual")
-    .trim()
-    .notEmpty()
-    .withMessage("A pontuação do progresso atual não pode estar vazia")
-    .isInt({ min: 0, max: 100 })
-    .withMessage(
-      "A pontuação do progresso atual deve ser um valor entre 0 e 100"
-    )
-    .escape(),
-
-  body("tipoUsuario")
-    .trim()
-    .toLowerCase()
-    .notEmpty()
-    .withMessage("O campo não pode ser vazio")
-    .toLowerCase()
-    .isIn(["administrador", "funcionario", "responsavel", "pessoatea"])
-    .withMessage("O campo deve ser estar dentro de Responsável ou PessoaTea")
-    .escape(),
 ];
 
 function errosValidados(req, res, next) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array()[0] });
+    return res.status(400).json({ message: errors.array()[0].msg });
   }
   next();
 }

@@ -1,0 +1,36 @@
+.user_container {
+  height: 80px;
+  width: 700px;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  max-width: 800px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.user_content {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.user_container_text > .title {
+  color: #00304a;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.user_container_text > p {
+  color: #555;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .user_container {
+    max-width: 250px;
+  }
+}

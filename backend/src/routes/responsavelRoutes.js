@@ -4,7 +4,7 @@ const router = express.Router();
 // middlewares de validação
 const {
   validacoesDeResponsavel,
-  validacaoDelogin,
+  validacoesDeEdicaoDeResponsavel,
   errosValidados,
 } = require("../middlewares/responsavelValidacoes");
 
@@ -18,31 +18,29 @@ const ResponsavelController = require("../controllers/ResponsavelController");
 router.post(
   "/create",
   checkFuncionario,
-  imageUpload.single("image"),
+  imageUpload.single("foto"),
   validacoesDeResponsavel,
   errosValidados,
   ResponsavelController.criarResponsavel
 );
 
-router.post(
-  "/login",
-  validacaoDelogin,
-  errosValidados,
-  ResponsavelController.login
-);
-
 router.patch(
-  "/update/",
+  "/update/:id",
   checkFuncionario,
-  imageUpload.single("image"),
-  validacoesDeResponsavel,
+  imageUpload.single("foto"),
+  validacoesDeEdicaoDeResponsavel,
   errosValidados,
   ResponsavelController.atualizarResponsavel
 );
 router.get("/findone/:id", checkFuncionario, ResponsavelController.buscarPorId);
+router.get(
+  "/finddependent/:id",
+  checkFuncionario,
+  ResponsavelController.getResponsavelComPessoasTEA
+);
 router.get("/findall", checkFuncionario, ResponsavelController.buscarTodos);
 router.delete(
-  "/remove/",
+  "/remove/:id",
   checkFuncionario,
   ResponsavelController.deletarResponsavel
 );

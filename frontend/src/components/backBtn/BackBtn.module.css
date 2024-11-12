@@ -1,0 +1,15 @@
+.back_btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  background-color: transparent;
+  position: absolute;
+  top: 20px;
+  left: 100px;
+  cursor: pointer;
+}
+
+.back_btn > img {
+  max-width: 30px;
+}

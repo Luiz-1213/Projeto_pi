@@ -17,14 +17,14 @@ const PessoaTEAController = require("../controllers/PessoaTeaController");
 router.post(
   "/create",
   checkFuncionario,
-  imageUpload.single("image"),
+  imageUpload.single("foto"),
   validacoes,
   errosValidados,
   PessoaTEAController.criarPessoaTEA
 );
 router.patch(
-  "/update",
-  imageUpload.single("image"),
+  "/update/:id",
+  imageUpload.single("foto"),
   checkFuncionario,
   validacoes,
   errosValidados,

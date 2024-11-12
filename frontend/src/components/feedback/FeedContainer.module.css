@@ -1,0 +1,28 @@
+/* Container principal */
+.feedback_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 845px;
+  height: 100px;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  box-shadow: 2px 5px 5px 0px rgba(51, 51, 51, 0.5);
+  margin-bottom: 0.5rem;
+}
+
+/* Classe de estilização */
+.title {
+  color: #00304a;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+/* container de estrlas */
+.feedback_rating {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.5rem auto;
+}

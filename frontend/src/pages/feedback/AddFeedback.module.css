@@ -1,0 +1,36 @@
+/* Container de background */
+.feed_container {
+  width: 1000px;
+  min-height: 500px;
+  max-height: 600px;
+  border-radius: 12px;
+  border: 1px solid var(#f0f0f2);
+  background-color: #fafafa;
+  box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.08),
+    0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+/* Titulo do feedback */
+.feed_container > div > h1 {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 3px;
+  border-bottom: 2px solid #00304a;
+  margin-bottom: 1rem;
+}
+
+/* Descrição do feedback */
+.feed_container > div > p {
+  max-width: 600px;
+  font-size: 0.9rem;
+}
+
+/* Classe de erro do input */
+.error {
+  color: red;
+  font-size: 0.8rem;
+}

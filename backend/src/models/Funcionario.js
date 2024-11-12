@@ -24,10 +24,6 @@ const Funcionario = sequelize.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    idade: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     cpf: {
       type: DataTypes.STRING(14),
       allowNull: false,
@@ -62,8 +58,9 @@ const Funcionario = sequelize.define(
       allowNull: true,
     },
     tipoUsuario: {
-      type: DataTypes.ENUM("administrador", "funcionario", "responsavel", "pessoaTea"),
+      type: DataTypes.ENUM("administrador", "funcionario"),
       allowNull: false,
+      defaultValue: "funcionario",
     },
   },
   {

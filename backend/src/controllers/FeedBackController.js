@@ -76,10 +76,10 @@ module.exports = class FeedbackController {
 
   static async editarFeedback(req, res) {
     // recebe os dados de edição
+    
     const { id, assuntoFeedback, descricaoFeedback, satisfacao } = req.body;
-
     const feedback = await Feedback.findByPk(id);
-
+    
     if (!feedback) {
       return res.status(404).json({ message: "Feedback não encontrado!" });
     }
@@ -92,8 +92,6 @@ module.exports = class FeedbackController {
         .json({ message: "Somente responsaveis podem editar feedback" });
     }
     // Verifica se a pessoa que está tentando fazer a edição é o memso que escreveu
-    console.log(decodificado.id);
-    console.log(feedback.responsavelId);
 
     if (decodificado.id !== feedback.responsavelId) {
       return res.status(401).json({
@@ -122,9 +120,32 @@ module.exports = class FeedbackController {
     }
   }
 
+  static async BuscarPorReponsavel(req, res) {
+    const token = await pegarToken(req);
+    const decodificado = jwt.verify(token, process.env.SECRET_JWT);
+
+    if (decodificado.tipoUsuario !== "responsavel") {
+      return res.status(401).json({
+        message: "Metodo invalido para seu tipo usuário",
+      });
+    }
+
+    const feedbacks = await Feedback.findAll({
+      attributes: { exclude: ["responsavelId"] },
+    }).catch((error) => {
+      return res.status(500).json({ message: error });
+    });
+
+    if (!feedbacks) {
+      return res.status(200).json({ message: "Não há feedbacks enviados" });
+    } else {
+      return res.status(200).json({ feedbacks });
+    }
+  }
+
   // ------------------------ remover feedback
   static async deletarFeedback(req, res) {
-    const { id } = req.body;
+    const id = req.params.id;
 
     const feedback = await Feedback.findByPk(id);
 
@@ -137,7 +158,7 @@ module.exports = class FeedbackController {
 
     if (decodificado.tipoUsuario !== "responsavel") {
       return res
-        .status(400)
+        .status(401)
         .json({ message: "Somente responsaveis podem deletar feedback" });
     }
 

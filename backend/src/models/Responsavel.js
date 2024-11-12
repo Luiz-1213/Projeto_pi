@@ -25,10 +25,6 @@ const Responsavel = sequelize.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    idade: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     cpf: {
       type: DataTypes.STRING(14),
       allowNull: false,
@@ -45,9 +41,6 @@ const Responsavel = sequelize.define(
     },
     telefone: {
       type: DataTypes.STRING(20),
-    },
-    autorizacaoTratamento: {
-      type: DataTypes.FLOAT,
     },
     observacao: {
       type: DataTypes.STRING(200),

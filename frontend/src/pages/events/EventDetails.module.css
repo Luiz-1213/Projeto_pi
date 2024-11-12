@@ -1,0 +1,49 @@
+.bg_container {
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  top: 0;
+  position: absolute;
+  border-radius: 12px;
+  border: 1px solid var(#f0f0f2);
+  background-color: #fafafa;
+  box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.08),
+    0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+  display: flex;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 5;
+}
+
+.bg_container .title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.data {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* Duas colunas de tamanho igual */
+  gap: 0.5rem; /* Espaçamento entre as linhas */
+  font-family: Arial, sans-serif;
+}
+
+.data p {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 1rem;
+  color: #676d89;
+}
+
+.data span {
+  padding-left: 0.5rem;
+  color: #333;
+}
+
+/* Botão de ação */
+.actions_container {
+  margin: 1rem auto;
+  display: flex;
+  gap: 1rem;
+}

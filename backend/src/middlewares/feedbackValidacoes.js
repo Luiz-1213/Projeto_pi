@@ -7,7 +7,20 @@ const validacoesDeFeedback = [
     .notEmpty()
     .withMessage("Digite qual o título do evento")
     .isLength({ min: 5, max: 25 })
-    .withMessage("O título deve ter entre 5 e 25 caracteres"),
+    .withMessage("O título deve ter entre 5 e 25 caracteres")
+    .customSanitizer((value) => {
+      if (value) {
+        return value
+          .toLowerCase() // Converte todo o texto para minúsculas
+          .split(" ") // Divide o texto em palavras
+          .map((word) => {
+            // Capitaliza a primeira letra de cada palavra e mantém o restante minúsculo
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          })
+          .join(" "); // Junta as palavras novamente
+      }
+      return value;
+    }),
 
   body("descricaoFeedback")
     .trim()
@@ -30,7 +43,7 @@ const validacoesDeFeedback = [
 function errosValidados(req, res, next) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array()[0] });
+    return res.status(400).json({ message: errors.array()[0].msg });
   }
   next();
 }

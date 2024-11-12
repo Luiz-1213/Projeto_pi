@@ -1,0 +1,83 @@
+/* background-container */
+.background {
+  height: 100vh;
+  padding: 1rem 0;
+  background: linear-gradient(180deg, #f66b0e 0%, #0097ff 100%);
+}
+
+/* Container principal */
+.login_container {
+  max-width: 900px;
+  min-height: 85vh;
+  margin: 2rem auto;
+  display: flex;
+  gap: 2rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  background-color: #fdfdfd;
+}
+
+/* Container de imagem de fundo */
+.login_banner {
+  background: url("/bgImage.png");
+  background-size: cover;
+  background-position: center;
+  width: 50%;
+  background-color: #000;
+}
+
+/* Filtro da imagem */
+.banner_layer {
+  background-color: rgba(25, 11, 122, 0.5);
+  height: 100%;
+}
+
+/* Logo  */
+#logo {
+  max-width: 170px;
+  position: relative;
+  left: 1rem;
+  top: 70%;
+}
+
+/* Container de formulario */
+.login_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.login_form > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Classe de erro do input */
+.error {
+  color: red;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 400px) {
+  .login_form {
+    padding: 5px;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 900px) {
+  #logo,
+  .banner_layer,
+  .login_banner {
+    display: none;
+  }
+
+  .login_container {
+    max-width: 400px;
+    justify-content: center;
+    align-items: center;
+  }
+}

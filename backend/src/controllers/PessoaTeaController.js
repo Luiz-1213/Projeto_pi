@@ -1,4 +1,5 @@
 const PessoaTEA = require("../models/PessoaTea");
+const Responsavel = require("../models/Responsavel");
 
 // Helpers
 
@@ -7,26 +8,19 @@ module.exports = class PessoaTEAController {
   static async criarPessoaTEA(req, res) {
     const {
       nome,
-      idade,
       cpf,
       endereco,
-      informacaoMedica,
+      dataNascimento,
       genero,
-      telefoneResponsavel,
       autorizacaoTratamento,
       diagnostico,
       grauTEA,
-      contatoEmergencia,
       comunicacao,
       observacao,
       idadeDiagnostico,
       medicacao,
       frequenciaUsoMedicacao,
-      presenca,
       dataCadastro,
-      pontuacaoProgressoInicial,
-      pontuacaoProgressoAtual,
-      tipoUsuario,
       responsavel,
     } = req.body;
 
@@ -47,26 +41,19 @@ module.exports = class PessoaTEAController {
     const pessoaTea = {
       nome,
       foto: image,
-      idade,
       cpf,
       endereco,
-      informacaoMedica,
+      dataNascimento,
       genero,
-      telefoneResponsavel,
       autorizacaoTratamento,
       diagnostico,
       grauTEA,
-      contatoEmergencia,
       comunicacao,
       observacao,
       idadeDiagnostico,
       medicacao,
       frequenciaUsoMedicacao,
-      presenca,
       dataCadastro,
-      pontuacaoProgressoInicial,
-      pontuacaoProgressoAtual,
-      tipoUsuario,
       responsavel,
     };
 
@@ -81,7 +68,9 @@ module.exports = class PessoaTEAController {
 
   // Buscar todas as PessoasTEA
   static async buscarTodos(req, res) {
-    const usuarios = await PessoaTEA.findAll({});
+    const usuarios = await PessoaTEA.findAll({
+      attributes: { exclude: ["createAt", "updatedAt"] },
+    });
 
     if (!usuarios) {
       res.status(200).json({ message: "Não há Usuarios cadastrados" });
@@ -95,44 +84,52 @@ module.exports = class PessoaTEAController {
     const usuario = await PessoaTEA.findByPk(id);
 
     if (!usuario) {
-      return res.status(400).json({ message: "Usuario não encontrada!" });
+      return res.status(404).json({ message: "Usuario não encontrada!" });
     }
 
-    return res.status(200).json({ usuario });
+    const responsavel = await Responsavel.findByPk(usuario.responsavel, {
+      attributes: [
+        "id",
+        "nome",
+        "endereco",
+        "telefone",
+        "contatoEmergencia",
+        "parentesco",
+      ],
+    });
+
+    if (!responsavel) {
+      return res.status(404).json({ message: "Erro ao encontrar usuário!" });
+    }
+
+    return res.status(200).json({ usuario, responsavel });
   }
 
   // Atualizar Pessoa TEA
   static async atualizarPessoaTEA(req, res) {
+    const id = req.params.id;
     const {
-      id,
       nome,
-      idade,
       cpf,
       endereco,
-      informacaoMedica,
+      dataNascimento,
       genero,
-      telefoneResponsavel,
       autorizacaoTratamento,
       diagnostico,
       grauTEA,
-      contatoEmergencia,
       comunicacao,
       observacao,
       idadeDiagnostico,
       medicacao,
       frequenciaUsoMedicacao,
-      presenca,
       dataCadastro,
-      pontuacaoProgressoInicial,
-      pontuacaoProgressoAtual,
-      tipoUsuario,
       responsavel,
     } = req.body;
 
-    let image = "";
+    let foto = null;
 
     if (req.file) {
-      image = req.file.filename;
+      foto = req.file.filename;
     }
 
     // Verificar se a Pessoa TEA existe
@@ -152,29 +149,25 @@ module.exports = class PessoaTEAController {
     // Criando objeto funcionario de update
     const pessoaTea = {
       nome,
-      foto: image,
-      idade,
       cpf,
       endereco,
-      informacaoMedica,
+      dataNascimento,
       genero,
-      telefoneResponsavel,
       autorizacaoTratamento,
       diagnostico,
       grauTEA,
-      contatoEmergencia,
       comunicacao,
       observacao,
       idadeDiagnostico,
       medicacao,
       frequenciaUsoMedicacao,
-      presenca,
       dataCadastro,
-      pontuacaoProgressoInicial,
-      pontuacaoProgressoAtual,
-      tipoUsuario,
       responsavel,
     };
+
+    if (foto !== null) {
+      pessoaTea.foto = foto;
+    }
 
     PessoaTEA.update(pessoaTea, {
       where: { id: id },

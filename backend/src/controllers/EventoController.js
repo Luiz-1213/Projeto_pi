@@ -53,7 +53,7 @@ module.exports = class EventoController {
         {
           model: Responsavel,
           as: "Responsaveis",
-          attributes: ["nome", "telefone", "parentesco"],
+          attributes: ["id"],
           through: {
             attributes: [],
           },
@@ -69,18 +69,12 @@ module.exports = class EventoController {
 
   // Atualizando evento
   static async atualizarEvento(req, res) {
-    const {
-      idEvento,
-      assunto,
-      descricao,
-      horario,
-      local,
-      dataEvento,
-      responsaveis,
-    } = req.body;
+    const id = req.params.id;
+    const { assunto, descricao, horario, local, dataEvento, responsaveis } =
+      req.body;
 
     // Verificar se o Evento existe
-    const evento = await Evento.findByPk(idEvento);
+    const evento = await Evento.findByPk(id);
     if (!evento) {
       return res.status(404).json({ message: "evento não existe!" });
     }
@@ -99,7 +93,7 @@ module.exports = class EventoController {
           funcionarioCadastro: decodificado.id,
         },
         {
-          where: { idEvento: idEvento },
+          where: { idEvento: id },
         }
       );
 

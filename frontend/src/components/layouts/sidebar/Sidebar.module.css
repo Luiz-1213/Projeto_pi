@@ -1,0 +1,72 @@
+/* Definição de tamanho padrão das imagens */
+img {
+  width: 100%;
+}
+
+/* Container principal */
+.sidebar {
+  max-width: 220px;
+  width: 100%;
+  max-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #205375;
+  padding: 1rem 2rem;
+  box-shadow: 6px -1px 4px -3px rgba(51, 51, 51, 1);
+  position: fixed;
+}
+
+/* Container da logo */
+.sidebar_logo {
+  max-width: 150px;
+  max-height: 150px;
+  margin: 0 auto;
+}
+
+/* Itens da barra de navegação */
+.sidebar_itens {
+  margin: 2rem 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.sidebar_itens > li {
+  color: #fff;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.sidebar_itens > li:hover {
+  color: #dfdfdf;
+}
+
+/* Container de usuário */
+.sidebar_user_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user_photo {
+  max-width: 35px;
+  max-height: 35px;
+  border-radius: 50%;
+}
+
+.user_content {
+  color: #fff;
+}
+
+.user_content h3 {
+  font-size: 1rem;
+}
+
+.user_content p {
+  font-size: 0.8rem;
+  cursor: pointer;
+}

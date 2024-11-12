@@ -23,7 +23,7 @@ router.post(
 router.get("/findone/:id", checkFuncionario, EventoController.buscarPorId);
 router.get("/findall", checkFuncionario, EventoController.buscarTodos);
 router.patch(
-  "/edit",
+  "/edit/:id",
   checkFuncionario,
   validacoesDeEvento,
   errosValidados,

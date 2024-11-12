@@ -1,0 +1,36 @@
+.btn {
+  width: 180px;
+  height: 40px;
+  text-align: center;
+  align-self: center;
+  padding: 0.6rem 1rem;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.5s;
+  opacity: 0.9;
+  border: none;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+.regular {
+  background-color: #6194fa;
+}
+
+.not_active {
+  background-color: #fff;
+  border: 1px solid #6194fa;
+  color: #6194fa;
+}
+
+.danger {
+  background-color: #fa7961;
+}
+
+.save {
+  background-color: #81d340;
+}

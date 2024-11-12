@@ -29,7 +29,8 @@ router.patch(
   FeedBackController.editarFeedback
 );
 router.get("/findone/:id", verifyToken, FeedBackController.buscarPorId);
+router.get("/findresponse/", verifyToken, FeedBackController.BuscarPorReponsavel);
 router.get("/findall", checkFuncionario, FeedBackController.buscarTodos);
-router.delete("/remove", verifyToken, FeedBackController.deletarFeedback);
+router.delete("/remove/:id", verifyToken, FeedBackController.deletarFeedback);
 
 module.exports = router;

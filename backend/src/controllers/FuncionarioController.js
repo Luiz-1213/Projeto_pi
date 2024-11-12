@@ -11,15 +11,13 @@ module.exports = class FuncionarioController {
       email,
       senha,
       nome,
-      idade,
       cpf,
       endereco,
       telefone,
       cargo,
       dataNascimento,
       voluntario,
-      dataCadastro,
-      tipoUsuario,
+      horarioTrabalho,
     } = req.body;
 
     let image = "";
@@ -54,15 +52,14 @@ module.exports = class FuncionarioController {
       email,
       senha: senhaHash,
       nome,
-      idade,
       cpf,
       endereco,
       telefone,
       cargo,
       dataNascimento,
       voluntario,
-      dataCadastro,
-      tipoUsuario,
+      horarioTrabalho,
+      tipoUsuario: "funcionario",
     };
 
     Funcionario.create(funcionario)
@@ -74,34 +71,10 @@ module.exports = class FuncionarioController {
       });
   }
 
-  // login de funcionario
-  static async login(req, res) {
-    const { email, senha } = req.body;
-
-    const usuario = await Funcionario.findOne({
-      where: { email: email },
-    });
-
-    if (!usuario) {
-      return res.status(404).json({
-        message:
-          "Usúario não cadastrado, entre em contato com o Administrador!",
-      });
-    }
-
-    const verificarSenha = await bcrypt.compare(senha, usuario.senha);
-
-    if (!verificarSenha) {
-      return res.status(422).json({ message: "Senha inválida" });
-    }
-
-    criarToken(usuario, req, res);
-  }
-
   // ------------------------ buscar todos
   static async buscarTodos(req, res) {
     const usuarios = await Funcionario.findAll({
-      attributes: { exclude: ["senha", "tipoUsuario"] },
+      attributes: { exclude: ["senha", "createAt", "updatedAt"] },
     });
 
     if (!usuarios) {
@@ -120,19 +93,21 @@ module.exports = class FuncionarioController {
     if (!usuario) {
       return res.status(400).json({ message: "Usuário não encontrado!" });
     }
+    console.log(
+      "--------------------------------------------------Estou aqui",
+      usuario
+    );
     res.status(200).json({ usuario });
   }
 
   // ------------------------ atualizar funcionario
   static async atualizarFuncionario(req, res) {
     // const verificarSeAdmim = checkAdmin(token);
+    const id = req.params.id;
 
     const {
-      id,
       email,
-      senha,
       nome,
-      idade,
       cpf,
       endereco,
       telefone,
@@ -140,8 +115,7 @@ module.exports = class FuncionarioController {
       dataNascimento,
       qtdCadastroEvento,
       voluntario,
-      dataCadastro,
-      tipoUsuario,
+      horarioTrabalho,
     } = req.body;
 
     // Verificar se o usuario existe
@@ -150,7 +124,7 @@ module.exports = class FuncionarioController {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
 
-    let foto = "";
+    let foto = null;
 
     if (req.file) {
       foto = req.file.filename;
@@ -160,6 +134,7 @@ module.exports = class FuncionarioController {
     const emailJaExiste = await Funcionario.findOne({
       where: { email: email },
     });
+
     if (usuarioExiste.email !== email && emailJaExiste) {
       return res
         .status(400)
@@ -174,17 +149,9 @@ module.exports = class FuncionarioController {
       return res.status(400).json({ message: "O CPF já está cadastrado!" });
     }
 
-    // Criando senha forte
-    const salt = await bcrypt.genSalt(10);
-    const senhaHash = await bcrypt.hash(senha, salt);
-
-    // Criando objeto funcionario de update
-    const funcionario = {
-      foto: foto,
+    let funcionario = {
       email,
-      senha: senhaHash,
       nome,
-      idade,
       cpf,
       endereco,
       telefone,
@@ -192,9 +159,13 @@ module.exports = class FuncionarioController {
       dataNascimento,
       qtdCadastroEvento,
       voluntario,
-      dataCadastro,
-      tipoUsuario,
+      horarioTrabalho,
+      tipoUsuario: "funcionario",
     };
+
+    if (foto !== null) {
+      funcionario.foto = foto;
+    }
 
     Funcionario.update(funcionario, {
       where: { id: id },
@@ -211,7 +182,7 @@ module.exports = class FuncionarioController {
   // ------------------------ remover funcionario
   static async deletarFuncionario(req, res) {
     // const verificarSeAdmim = checkAdmin(token)
-    const { id } = req.body;
+    const id = req.params.id;
 
     // Verificar se o usuario existe
     const usuarioExiste = await Funcionario.findByPk(id);

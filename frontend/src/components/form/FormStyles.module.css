@@ -1,0 +1,24 @@
+/* UserForm.module.css */
+.form_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.sub_title {
+  font-size: 1.2rem;
+  color: #00304a;
+  margin: 1rem auto;
+  grid-column: 1 / -1;
+  justify-self: center;
+  padding: 0.5rem;
+  border-bottom: 2px solid #00304a;
+}
+
+.full_width {
+  grid-column: 1 / -1;
+  justify-self: center;
+}

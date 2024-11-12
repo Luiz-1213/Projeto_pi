@@ -1,8 +1,6 @@
 const Responsavel = require("../models/Responsavel");
+const PessoaTea = require("../models/PessoaTea");
 const bcrypt = require("bcrypt");
-
-// Helpers
-const criarToken = require("../helpers/criarToken");
 
 module.exports = class ResponsavelController {
   // ------------------------ criar responsável
@@ -11,18 +9,15 @@ module.exports = class ResponsavelController {
       email,
       senha,
       nome,
-      idade,
       cpf,
       endereco,
       genero,
       parentesco,
       telefone,
-      autorizacaoTratamento,
       observacao,
       horarioDisponivel,
       dataNascimento,
       contatoEmergencia,
-      tipoUsuario,
     } = req.body;
 
     // Verificando se o email já existe
@@ -59,18 +54,16 @@ module.exports = class ResponsavelController {
       foto: image,
       senha: senhaHash,
       nome,
-      idade,
       cpf,
       endereco,
       genero,
       parentesco,
       telefone,
-      autorizacaoTratamento,
       observacao,
       horarioDisponivel,
       dataNascimento,
       contatoEmergencia,
-      tipoUsuario,
+      tipoUsuario: "responsavel",
     };
 
     Responsavel.create(responsavel)
@@ -82,74 +75,75 @@ module.exports = class ResponsavelController {
       });
   }
 
-  // login de responsável
-  static async login(req, res) {
-    const { email, senha } = req.body;
-
-    const usuario = await Responsavel.findOne({
-      where: { email: email },
-    });
-
-    if (!usuario) {
-      return res.status(404).json({
-        message:
-          "Usúario não cadastrado, entre em contato com o Administrador!",
-      });
-    }
-
-    const verificarSenha = await bcrypt.compare(senha, usuario.senha);
-
-    if (!verificarSenha) {
-      return res.status(422).json({ message: "Senha inválida" });
-    }
-
-    criarToken(usuario, req, res);
-  }
-
   // ------------------------ buscar todos
   static async buscarTodos(req, res) {
-    const usuarios = await Responsavel.findAll({
-      attributes: { exclude: ["senha", "tipoUsuario"] },
+    const responsaveis = await Responsavel.findAll({
+      attributes: { exclude: ["senha", "createAt", "updatedAt"] },
     });
 
-    if (!usuarios) {
+    if (!responsaveis) {
       res.status(200).json({ message: "Não há usuario cadastrados" });
     }
-    res.status(200).json({ usuarios });
+    res.status(200).json({ responsaveis });
   }
+  // ------------------------ buscar um
+  static async getResponsavelComPessoasTEA(req, res) {
+    const id = req.params.id;
+
+    try {
+      const responsavel = await Responsavel.findByPk(id, {
+        include: [
+          {
+            model: PessoaTea,
+            as: "PessoaTEA",
+            attributes: ["id", "nome", "foto", "dataNascimento", "diagnostico"],
+          },
+        ],
+        attributes: { exclude: ["senha", "updatedAt", "createdAt"] },
+      });
+
+      if (!responsavel) {
+        return res.status(400).json({ message: "Usuário não encontrado!" });
+      }
+
+      res.status(200).json(responsavel);
+    } catch (error) {
+      res.status(500).json({ error: error });
+
+      console.error("Erro ao buscar responsáveis com suas pessoas TEA:", error);
+    }
+  }
+
   // ------------------------ buscar um
   static async buscarPorId(req, res) {
     const id = req.params.id;
 
-    const usuario = await Responsavel.findByPk(id, {
-      attributes: { exclude: ["senha"] },
+    const responsavel = await Responsavel.findByPk(id, {
+      attributes: { exclude: ["senha", "updatedAt", "createdAt"] },
     });
 
-    if (!usuario) {
+    if (!responsavel) {
       return res.status(400).json({ message: "Usuário não encontrado!" });
     }
-    res.status(200).json({ usuario });
+
+    res.status(200).json(responsavel);
   }
 
   // ------------------------ atualizar
   static async atualizarResponsavel(req, res) {
+    const id = req.params.id;
     const {
-      id,
       email,
-      senha,
       nome,
-      idade,
       cpf,
       endereco,
       genero,
       parentesco,
       telefone,
-      autorizacaoTratamento,
       observacao,
       horarioDisponivel,
       dataNascimento,
       contatoEmergencia,
-      tipoUsuario,
     } = req.body;
 
     // Verificar se o usuario existe
@@ -176,35 +170,31 @@ module.exports = class ResponsavelController {
       return res.status(400).json({ message: "O CPF já está cadastrado!" });
     }
 
-    // Criando senha forte
-    const salt = await bcrypt.genSalt(10);
-    const senhaHash = await bcrypt.hash(senha, salt);
-
-    let image = "";
+    let foto = null;
 
     if (req.file) {
-      image = req.file.filename;
+      foto = req.file.filename;
     }
 
     // Criando objeto responsável de update
     const responsavel = {
       email,
-      foto: image,
-      senha: senhaHash,
       nome,
-      idade,
       cpf,
       endereco,
       genero,
       parentesco,
       telefone,
-      autorizacaoTratamento,
       observacao,
       horarioDisponivel,
       dataNascimento,
       contatoEmergencia,
-      tipoUsuario,
+      tipoUsuario: "responsavel",
     };
+
+    if (foto !== null) {
+      responsavel.foto = foto;
+    }
 
     Responsavel.update(responsavel, {
       where: { id: id },
@@ -220,8 +210,7 @@ module.exports = class ResponsavelController {
   }
   // ------------------------ remover responsável
   static async deletarResponsavel(req, res) {
-    const { id } = req.body;
-
+    const id = req.params.id;
     // Verificar se o usuario existe
     const usuarioExiste = await Responsavel.findByPk(id);
     if (!usuarioExiste) {
@@ -237,6 +226,7 @@ module.exports = class ResponsavelController {
           message:
             "Houve um erro ao deletar o usuário, tente novamente mais tarde",
         });
+        console.log(error);
       });
   }
 };

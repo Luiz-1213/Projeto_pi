@@ -1,5 +1,6 @@
 // configurando variaveis de ambientes
 require("dotenv").config();
+const cors = require("cors");
 
 // Importações
 const express = require("express");
@@ -14,6 +15,10 @@ require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Resolvendo o cors
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(cors());
+
 // Definindo diretorio publico
 app.use(express.static("public"));
 
@@ -23,11 +28,13 @@ const eventoRoutes = require("./src/routes/eventoRoutes");
 const responsavelRoutes = require("./src/routes/responsavelRoutes");
 const pessoaTeaRoutes = require("./src/routes/pessoaTeaRoutes");
 const feedbackRoutes = require("./src/routes/feedbackRoutes");
+const authRoutes = require("./src/routes/authRoutes");
 app.use("/func", funcionarioRoutes);
 app.use("/evento", eventoRoutes);
 app.use("/respon", responsavelRoutes);
 app.use("/tea", pessoaTeaRoutes);
 app.use("/feedback", feedbackRoutes);
+app.use("/auth", authRoutes);
 
 // porta do servidor
 const port = process.env.PORT;
