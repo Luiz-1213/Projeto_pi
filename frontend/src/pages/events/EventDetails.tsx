@@ -3,17 +3,25 @@ import Button from "../../components/button/Button";
 import styles from "./EventDetails.module.css";
 import { useNavigate } from "react-router-dom";
 import { normalizeDate } from "../../utils/masks";
+import { remove } from "../../services/eventoService";
+import useToast from "../../hooks/useToast";
 
 const EventoDetails = ({ event, close_modal }: any) => {
   const navigate = useNavigate();
 
   const handleNavigation = () => {
-    console.log("cai aqui");
     navigate(`/event/edit/${event.idEvento}`);
   };
 
-  function deleteResponsible(): void {
-    throw new Error("Function not implemented.");
+  async function deleteEvent() {
+    const data = await remove(event.idEvento as string);
+
+    useToast(data.message as string, data.status);
+
+    if (data && data.status === "sucess") {
+      navigate("/home");
+      close_modal();
+    }
   }
 
   return (
@@ -37,9 +45,6 @@ const EventoDetails = ({ event, close_modal }: any) => {
           <p>
             Descrição: <span>{event.descricao}</span>
           </p>
-          <p className={styles.full_width}>
-            responsavel: <span>{event.descricao}</span>
-          </p>
         </div>
       </div>
       <div className={styles.actions_container}>
@@ -51,7 +56,7 @@ const EventoDetails = ({ event, close_modal }: any) => {
         <Button
           text={"Remover"}
           stylesType={"danger"}
-          onClick={deleteResponsible}
+          onClick={deleteEvent}
         ></Button>
       </div>
     </div>

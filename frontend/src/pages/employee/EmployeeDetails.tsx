@@ -16,6 +16,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "../../components/button/Button";
 // Estilos
 import styles from "../UserDetails.module.css";
+import { normalizeDate } from "../../utils/masks";
 
 const EmployeeDetails = () => {
   // Constante e useState
@@ -91,7 +92,9 @@ const EmployeeDetails = () => {
                   </p>
                   <p>
                     Data de Nascimento:
-                    <span>{employee?.dataNascimento}</span>
+                    <span>
+                      {normalizeDate(employee?.dataNascimento as string)}
+                    </span>
                   </p>
                 </div>
               </div>

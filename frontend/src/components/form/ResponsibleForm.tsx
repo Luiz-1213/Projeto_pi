@@ -18,9 +18,10 @@ import { normalizeCPF, normalizePhoneNumber } from "../../utils/masks";
 import styles from "./FormStyles.module.css";
 import { IResponsible } from "../../interfaces/IResponsibleResponse";
 
+// Componente Props
 type responsibleFormProps = {
-  onSubmit: any;
-  initialValues: IResponsible ;
+  onSubmit: (data: FormData) => void;
+  initialValues: IResponsible;
   isEditing: boolean;
   btnText: string;
   userPhoto?: string;
@@ -33,6 +34,7 @@ const ResponsibleForm = ({
   btnText,
   userPhoto,
 }: responsibleFormProps) => {
+  // Esquema do zod
   const responsibleSchema = z
     .object({
       foto: isEditing
@@ -111,8 +113,8 @@ const ResponsibleForm = ({
     resolver: zodResolver(responsibleSchema),
   });
 
+  // Converter em formData e envio
   const handleSubmit = (data: responsibleSchemaForm) => {
-    console.log(data);
     const formData = new FormData();
     (Object.keys(data) as Array<keyof typeof data>).forEach((key) => {
       const value = data[key];
@@ -123,10 +125,11 @@ const ResponsibleForm = ({
         formData.append(key, value.toString());
       }
     });
-    console.log(formData);
+
     onSubmit(formData);
   };
 
+  // Mascaras
   const phoneValue = methods.watch("telefone");
   const phoneEmergencyValue = methods.watch("contatoEmergencia");
   const cpfValue = methods.watch("cpf");
@@ -146,6 +149,7 @@ const ResponsibleForm = ({
     methods.setValue("cpf", normalizeCPF(cpfValue));
   }, [cpfValue]);
 
+  // Componente de input
   return (
     <FormProvider {...methods}>
       <form

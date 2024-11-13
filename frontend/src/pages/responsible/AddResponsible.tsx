@@ -9,12 +9,13 @@ import Container from "../../components/layouts/container/Container";
 import ResponsibleForm from "../../components/form/ResponsibleForm";
 // Estilos
 import styles from "../AddPagesStyles.module.css";
+import { IResponsible } from "../../interfaces/IResponsibleResponse";
 
 const AddResponsible = () => {
   const navigate = useNavigate();
 
   // Função para dispara a criação do responsavel e tratar a resposta
-  const handleCreate = async (data: any) => {
+  const handleCreate = async (data: FormData) => {
     try {
       const response = await createResponsible(data);
       if (response && response.status === "error") {
@@ -29,13 +30,14 @@ const AddResponsible = () => {
     }
   };
 
+  // Definindo Valores padrão do formulario
   let defaultValues = {
     id: 0,
     foto: undefined,
     nome: "",
     cpf: "",
     email: "",
-    dataNascimento: "00/00/2000",
+    dataNascimento: "",
     endereco: "",
     senha: undefined,
     confirmasenha: undefined,

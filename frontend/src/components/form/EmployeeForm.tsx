@@ -1,26 +1,64 @@
-// UserForm.tsx
+// Importações od React
 import { useEffect } from "react";
-import Button from "../button/Button";
+// Zod e react hook form
+import * as z from "zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import FormControl from "./inputs/FormControl";
-import styles from "./FormStyles.module.css";
+// Tipos e Interfaces
+import { IEmployee } from "../../interfaces/IEmployeeResponse";
+// Mask e validações
 import { normalizeCPF, normalizePhoneNumber } from "../../utils/masks";
-import FileInput from "./inputs/FileInput";
 import validateCPF from "../../utils/validateCPF";
+// Compoentes
+import Button from "../button/Button";
+import FileInput from "./inputs/FileInput";
+import FormControl from "./inputs/FormControl";
+// Estilos
+import styles from "./FormStyles.module.css";
 
-const EmployeeForm = ({ onSubmit, initialValues, isEditing, btnText }: any) => {
+// Tipagem da Props do Compoennte
+type employeeFormProps = {
+  onSubmit: (data: FormData) => void;
+  initialValues: IEmployee;
+  isEditing: boolean;
+  btnText: string;
+  userPhoto?: string;
+};
+
+const EmployeeForm = ({
+  onSubmit,
+  initialValues,
+  isEditing,
+  btnText,
+  userPhoto,
+}: employeeFormProps) => {
   // Definindo o schema Zod
   const employeeSchema = z
     .object({
       foto: isEditing
-        ? z
+        ? z.optional(
+            z
+              .instanceof(FileList)
+              .refine(
+                (list) => {
+                  if (!list || list.length === 0) return true;
+                  const file = list.item(0);
+                  if (!file) return false;
+                  const validTypes = ["image/jpg", "image/png"];
+                  return validTypes.includes(file.type);
+                },
+                {
+                  message: "A foto deve ser um arquivo JPG ou PNG",
+                }
+              )
+              .transform((list) => (list ? list.item(0) : null))
+          )
+        : z
             .instanceof(FileList)
-            .optional()
-            .transform((list) => list?.item(0))
             .refine(
-              (file) => {
+              (list) => {
+                if (!list || list.length === 0) return false;
+                const file = list.item(0);
                 if (!file) return false;
                 const validTypes = ["image/jpg", "image/png"];
                 return validTypes.includes(file.type);
@@ -29,19 +67,7 @@ const EmployeeForm = ({ onSubmit, initialValues, isEditing, btnText }: any) => {
                 message: "A foto deve ser um arquivo JPG ou PNG",
               }
             )
-        : z
-            .instanceof(FileList)
-            .transform((list) => list.item(0))
-            .refine(
-              (file) => {
-                if (!file) return false;
-                const validTypes = ["image/jpg", "image/png"];
-                return validTypes.includes(file.type);
-              },
-              {
-                message: "A foto deve ser um arquivo JPG ou PNG",
-              }
-            ),
+            .transform((list) => list.item(0)),
       nome: z.string().min(1, "O nome é obrigatório"),
       cpf: z
         .string()
@@ -70,17 +96,18 @@ const EmployeeForm = ({ onSubmit, initialValues, isEditing, btnText }: any) => {
     })
     .refine((data) => data.senha === data.confirmasenha, {
       message: "As senhas não coincidem",
-      path: ["senha", "confirmasenha"],
+      path: ["confirmasenha"],
     });
 
   // Typando o retorno dos inputs
   type employeeSchemaForm = z.infer<typeof employeeSchema>;
 
   const methods = useForm<employeeSchemaForm>({
-    defaultValues: initialValues || "",
+    defaultValues: initialValues,
     resolver: zodResolver(employeeSchema),
   });
 
+  // Conversão para formData e Envio dos dados
   const handleSubmit = (data: employeeSchemaForm) => {
     data.voluntario = Number(data.voluntario);
 
@@ -101,6 +128,7 @@ const EmployeeForm = ({ onSubmit, initialValues, isEditing, btnText }: any) => {
   const phoneValue = methods.watch("telefone");
   const cpfValue = methods.watch("cpf");
 
+  // Mascaras de Inputs
   useEffect(() => {
     methods.setValue("telefone", normalizePhoneNumber(phoneValue));
   }, [phoneValue]);
@@ -109,9 +137,8 @@ const EmployeeForm = ({ onSubmit, initialValues, isEditing, btnText }: any) => {
     methods.setValue("cpf", normalizeCPF(cpfValue));
   }, [cpfValue]);
 
-  console.log(methods.formState.errors);
-
   return (
+    // Componente de Formulario
     <FormProvider {...methods}>
       <form
         className={styles.form_container}
@@ -122,6 +149,7 @@ const EmployeeForm = ({ onSubmit, initialValues, isEditing, btnText }: any) => {
             name={"foto"}
             label={"Adicione uma foto:"}
             imgUrl={`${import.meta.env.VITE_API_URL}/images/funcionario/`}
+            previewPhoto={userPhoto as string}
           ></FileInput>
         </div>
 

@@ -27,9 +27,10 @@ interface Eventos {
 
 interface CalendarProps {
   events: IEventResponse[];
+  isModalOpenStatus: (status: boolean) => void;
 }
 
-const Calendar = ({ events }: CalendarProps) => {
+const Calendar = ({ events, isModalOpenStatus }: CalendarProps) => {
   const [eventos, setEventos] = useState<Eventos[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<Eventos | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,6 +54,7 @@ const Calendar = ({ events }: CalendarProps) => {
   const handleEventClick = async (event: any) => {
     setSelectedEvent(event);
     setIsModalOpen(true);
+    isModalOpenStatus(true);
   };
 
   const handleNavigation = () => {
@@ -63,6 +65,7 @@ const Calendar = ({ events }: CalendarProps) => {
   const closeModal = () => {
     setSelectedEvent(null);
     setIsModalOpen(false);
+    isModalOpenStatus(false);
   };
 
   return (

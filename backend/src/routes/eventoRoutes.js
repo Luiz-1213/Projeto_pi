@@ -29,6 +29,6 @@ router.patch(
   errosValidados,
   EventoController.atualizarEvento
 );
-router.delete("/remove", checkFuncionario, EventoController.deletarEvento);
+router.delete("/remove/:id", checkFuncionario, EventoController.deletarEvento);
 
 module.exports = router;

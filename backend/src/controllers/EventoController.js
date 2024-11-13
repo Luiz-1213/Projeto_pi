@@ -110,18 +110,18 @@ module.exports = class EventoController {
 
   // Remove evento
   static async deletarEvento(req, res) {
-    const { idEvento } = req.body;
+    const id = req.params.id;
 
     try {
       // Verificar se o evento existe
-      const eventoExiste = await Evento.findByPk(idEvento);
+      const eventoExiste = await Evento.findByPk(id);
       if (!eventoExiste) {
         return res.status(404).json({ message: "Evento não existe!" });
       }
 
       await eventoExiste.setResponsaveis([]);
 
-      await Evento.destroy({ where: { idEvento: idEvento } });
+      await Evento.destroy({ where: { idEvento: id } });
 
       return res.status(200).json({ message: "Evento removido com sucesso" });
     } catch (error) {

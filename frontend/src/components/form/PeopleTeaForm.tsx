@@ -1,20 +1,26 @@
-// UserForm.tsx
+// Importações od React
 import { useEffect } from "react";
-import Button from "../button/Button";
+// Zod e react hook form
+import * as z from "zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import FormControl from "./inputs/FormControl";
-import styles from "./FormStyles.module.css";
+// Tipos e Interfaces
+import { IPeopleTEA } from "../../interfaces/IPeopleTEAResponse";
+// Mask e validações
 import { normalizeCPF } from "../../utils/masks";
-import FileInput from "./inputs/FileInput";
 import validateCPF from "../../utils/validateCPF";
+// Compoentes
+import Button from "../button/Button";
+import FileInput from "./inputs/FileInput";
+import FormControl from "./inputs/FormControl";
 import InputRadio from "./inputs/InputRadio";
-import { IPeopleTEAResponse } from "../../interfaces/IPeopleTEAResponse";
+// Estilos
+import styles from "./FormStyles.module.css";
 
+// Tipagem da Props do Compoennte
 type peopleFormProps = {
-  onSubmit: any;
-  initialValues: IPeopleTEAResponse;
+  onSubmit: (data: FormData) => void;
+  initialValues: IPeopleTEA;
   isEditing: boolean;
   btnText: string;
   userPhoto?: string;
@@ -30,12 +36,29 @@ const PeopleTeaForm = ({
   // Definindo o schema Zod
   const peopleTeaSchema = z.object({
     foto: isEditing
-      ? z
+      ? z.optional(
+          z
+            .instanceof(FileList)
+            .refine(
+              (list) => {
+                if (!list || list.length === 0) return true;
+                const file = list.item(0);
+                if (!file) return false;
+                const validTypes = ["image/jpg", "image/png"];
+                return validTypes.includes(file.type);
+              },
+              {
+                message: "A foto deve ser um arquivo JPG ou PNG",
+              }
+            )
+            .transform((list) => (list ? list.item(0) : null))
+        )
+      : z
           .instanceof(FileList)
-          .optional()
-          .transform((list) => list?.item(0))
           .refine(
-            (file) => {
+            (list) => {
+              if (!list || list.length === 0) return false;
+              const file = list.item(0);
               if (!file) return false;
               const validTypes = ["image/jpg", "image/png"];
               return validTypes.includes(file.type);
@@ -44,20 +67,7 @@ const PeopleTeaForm = ({
               message: "A foto deve ser um arquivo JPG ou PNG",
             }
           )
-      : z
-          .instanceof(FileList)
-          .transform((list) => list.item(0))
-          .refine(
-            (file) => {
-              if (!file) return false;
-              const validTypes = ["image/jpg", "image/png"];
-              return validTypes.includes(file.type);
-            },
-            {
-              message: "A foto deve ser um arquivo JPG ou PNG",
-            }
-          ),
-
+          .transform((list) => list.item(0)),
     nome: z.string().min(1, "O nome é obrigatório"),
     cpf: z
       .string()
@@ -86,26 +96,11 @@ const PeopleTeaForm = ({
   type peopleSchemaForm = z.infer<typeof peopleTeaSchema>;
 
   const methods = useForm<peopleSchemaForm>({
-    defaultValues: {
-      foto: (initialValues.foto = undefined),
-      nome: initialValues.nome || "",
-      cpf: initialValues.cpf || "",
-      dataNascimento: initialValues.dataNascimento || "",
-      endereco: initialValues.endereco || "",
-      genero: initialValues.genero || "",
-      diagnostico: initialValues.diagnostico || "",
-      grauTEA: initialValues.grauTEA || "",
-      comunicacao: initialValues.comunicacao || "",
-      observacao: initialValues.observacao || "",
-      idadeDiagnostico: initialValues.idadeDiagnostico || 0,
-      autorizacaoTratamento: initialValues.autorizacaoTratamento || 0,
-      medicacao: initialValues.medicacao || "",
-      frequenciaUsoMedicacao: initialValues.frequenciaUsoMedicacao || "",
-      responsavel: initialValues.responsavel || 0,
-    },
+    defaultValues: initialValues,
     resolver: zodResolver(peopleTeaSchema),
   });
 
+  // Conversão em formData e envio
   const handleSubmit = (data: peopleSchemaForm) => {
     data.autorizacaoTratamento = Number(data.autorizacaoTratamento);
 
@@ -123,14 +118,15 @@ const PeopleTeaForm = ({
     onSubmit(formData);
   };
 
+  // Mascaras
   const cpfValue = methods.watch("cpf");
-
   useEffect(() => {
     methods.setValue("cpf", normalizeCPF(cpfValue));
   }, [cpfValue]);
 
   return (
     <FormProvider {...methods}>
+      {/* Componente de formulario */}
       <form
         className={styles.form_container}
         onSubmit={methods.handleSubmit(handleSubmit)}
@@ -181,7 +177,7 @@ const PeopleTeaForm = ({
         />
         <FormControl
           name="genero"
-          label="Qual o genêro do responsável?"
+          label="Qual o genêro da Pessoa TEA?"
           inputType={"text"}
           Component="select"
         >
@@ -189,6 +185,7 @@ const PeopleTeaForm = ({
           <option value="Masculino">Masculino</option>
           <option value="Outro">Outro</option>
         </FormControl>
+        
         <p className={styles.sub_title}>Informações Médicas</p>
 
         <FormControl

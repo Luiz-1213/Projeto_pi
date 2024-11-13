@@ -35,7 +35,7 @@ const ResponsibleDetails = () => {
         // Tratamento de erros da api
         if (responsible && responsible.status === "error") {
           useToast(responsible.msgError as string, responsible.status);
-          // navigate("/registered");
+          navigate("/registered");
         } else if (responsible && responsible.data) {
           // Seta os dados
           setResponsible(responsible.data as IResponsibleResponse);
@@ -123,7 +123,9 @@ const ResponsibleDetails = () => {
                     </p>
                     <p>
                       Data de Nascimento:
-                      <span>{dependent?.dataNascimento}</span>
+                      <span>
+                        {normalizeDate(dependent?.dataNascimento as string)}
+                      </span>
                     </p>
                     <p>
                       Diagnostico: <span>{dependent?.diagnostico}</span>

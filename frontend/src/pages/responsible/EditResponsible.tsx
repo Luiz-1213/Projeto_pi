@@ -25,6 +25,7 @@ const EditResponsible = () => {
   const [responsible, setResponsible] = useState<IResponsibleResponse>();
   const { id } = useParams();
 
+  // Criando obejto com os dados para edição
   let defaultValues = {
     id: responsible?.id,
     foto: undefined,
@@ -60,7 +61,7 @@ const EditResponsible = () => {
   }, [id]);
 
   // Função para dispara a edição
-  const handleEdit = async (data: any) => {
+  const handleEdit = async (data: FormData) => {
     try {
       const response = await editResponsible(data, id as string);
       if (response && response.status === "error") {

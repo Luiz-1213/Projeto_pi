@@ -8,7 +8,10 @@ import {
   getEmployeebyId,
 } from "../../services/funcionarioService";
 // Tipagem
-import { IEmployeeResponse } from "../../interfaces/IEmployeeResponse";
+import {
+  IEmployee,
+  IEmployeeResponse,
+} from "../../interfaces/IEmployeeResponse";
 // Toast De Notificação
 import useToast from "../../hooks/useToast";
 // Componentes
@@ -55,6 +58,21 @@ const EditEmployee = () => {
       navigate("/registered");
     }
   };
+
+  let defaultValues = {
+    foto: undefined,
+    email: employee?.email,
+    nome: employee?.nome,
+    cpf: employee?.cpf,
+    endereco: employee?.endereco,
+    telefone: employee?.telefone,
+    cargo: employee?.cargo,
+    dataNascimento: employee?.dataNascimento,
+    horarioTrabalho: employee?.horarioTrabalho,
+    qtdCadastroEvento: employee?.qtdCadastroEvento,
+    voluntario: employee?.voluntario,
+  };
+
   return (
     <Container
       Children={
@@ -69,10 +87,10 @@ const EditEmployee = () => {
           ) : (
             <EmployeeForm
               onSubmit={handleEdit}
-              initialValues={employee}
-
+              initialValues={defaultValues as IEmployee}
               isEditing={true}
               btnText={"Editar"}
+              userPhoto={employee.foto}
             />
           )}
         </div>

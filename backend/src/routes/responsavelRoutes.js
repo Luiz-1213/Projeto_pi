@@ -21,6 +21,7 @@ router.post(
   imageUpload.single("foto"),
   validacoesDeResponsavel,
   errosValidados,
+
   ResponsavelController.criarResponsavel
 );
 

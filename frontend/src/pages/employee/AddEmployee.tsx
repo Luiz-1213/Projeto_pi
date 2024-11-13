@@ -29,6 +29,19 @@ const AddEmployee = () => {
     }
   };
 
+  let defaultValues = {
+    email: "",
+    nome: "",
+    cpf: "",
+    endereco: "",
+    telefone: "",
+    cargo: "",
+    dataNascimento: "",
+    horarioTrabalho: "",
+    qtdCadastroEvento: 0,
+    voluntario: 0,
+  };
+
   return (
     <Container
       Children={
@@ -37,7 +50,7 @@ const AddEmployee = () => {
           <p>Preencha todos os dados para realizar o cadastro do Funcionário</p>
           <EmployeeForm
             onSubmit={handleCreate}
-            initialValues={""}
+            initialValues={defaultValues}
             isEditing={false}
             btnText={"Criar"}
           />

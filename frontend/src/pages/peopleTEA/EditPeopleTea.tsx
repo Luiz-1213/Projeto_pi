@@ -8,7 +8,10 @@ import {
   getPeopleTeaAndResponsible,
 } from "../../services/pessoaTeaService";
 // Tipagem
-import { IPeopleTEAResponse } from "../../interfaces/IPeopleTEAResponse";
+import {
+  IPeopleTEA,
+  IPeopleTEAResponse,
+} from "../../interfaces/IPeopleTEAResponse";
 // Toast De Notificação
 import useToast from "../../hooks/useToast";
 // Componentes
@@ -55,6 +58,25 @@ const EditPeopleTea = () => {
       navigate("/registered");
     }
   };
+
+  let defaultValues = {
+    foto: undefined,
+    nome: peopleTea?.nome,
+    cpf: peopleTea?.cpf,
+    dataNascimento: peopleTea?.dataNascimento,
+    endereco: peopleTea?.endereco,
+    genero: peopleTea?.genero,
+    observacao: peopleTea?.observacao,
+    autorizacaoTratamento: peopleTea?.autorizacaoTratamento,
+    diagnostico: peopleTea?.diagnostico,
+    grauTEA: peopleTea?.grauTEA,
+    comunicacao: peopleTea?.comunicacao,
+    idadeDiagnostico: peopleTea?.idadeDiagnostico,
+    medicacao: peopleTea?.medicacao,
+    frequenciaUsoMedicacao: peopleTea?.frequenciaUsoMedicacao,
+    responsavel: peopleTea?.responsavel,
+  };
+
   return (
     <Container
       Children={
@@ -69,7 +91,7 @@ const EditPeopleTea = () => {
           ) : (
             <PeopleTeaForm
               onSubmit={handleEdit}
-              initialValues={peopleTea}
+              initialValues={defaultValues as IPeopleTEA}
               isEditing={true}
               userPhoto={peopleTea.foto}
               btnText={"Editar"}

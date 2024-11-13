@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 // Services
 import { createPeopleTea } from "../../services/pessoaTeaService";
 // Tipagem
+import { IPeopleTEA } from "../../interfaces/IPeopleTEAResponse";
 // Toast De Notificação
 import useToast from "../../hooks/useToast";
 // Componentes
@@ -29,6 +30,24 @@ const AddPeopleTea = () => {
     }
   };
 
+  let defaultValues = {
+    foto: undefined,
+    nome: "",
+    cpf: "",
+    dataNascimento: "2000/01/01",
+    endereco: "",
+    genero: "Feminino",
+    observacao: "",
+    autorizacaoTratamento: 0,
+    diagnostico: "",
+    grauTEA: "Leve",
+    comunicacao: "",
+    idadeDiagnostico: 0,
+    medicacao: "",
+    frequenciaUsoMedicacao: "",
+    responsavel: 0,
+  };
+
   return (
     <Container
       Children={
@@ -37,7 +56,7 @@ const AddPeopleTea = () => {
           <p>Preencha todos os dados para realizar o cadastro do Pessoa TEA</p>
           <PeopleTea
             onSubmit={handleCreate}
-            initialValues={""}
+            initialValues={defaultValues as IPeopleTEA}
             isEditing={false}
             btnText={"Criar"}
           />

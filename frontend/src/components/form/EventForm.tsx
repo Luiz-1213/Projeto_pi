@@ -1,11 +1,14 @@
-// UserForm.tsx
-import Button from "../button/Button";
+// Zod e react hook form
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+
+// Componentes
+import Button from "../button/Button";
 import FormControl from "./inputs/FormControl";
-import styles from "./FormStyles.module.css";
 import Checkbox from "./inputs/Checkbox";
+// Estilos
+import styles from "./FormStyles.module.css";
 
 const EventForm = ({ onSubmit, initialValues, btnText }: any) => {
   // Definindo o schema Zod
@@ -35,7 +38,6 @@ const EventForm = ({ onSubmit, initialValues, btnText }: any) => {
     resolver: zodResolver(eventSchema),
   });
 
-  console.log(methods.formState.errors);
   const handleSubmit = (data: eventSchemaForm) => {
     onSubmit(data);
   };

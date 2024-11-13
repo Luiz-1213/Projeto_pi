@@ -28,6 +28,24 @@ export interface IPeopleTEAResponse {
   responsavel: number;
 }
 
+export interface IPeopleTEA {
+  foto?: File | undefined;
+  nome: string;
+  cpf: string;
+  endereco: string;
+  dataNascimento: string;
+  genero: string;
+  autorizacaoTratamento: number;
+  diagnostico: string;
+  grauTEA: string;
+  comunicacao: string;
+  observacao: string;
+  idadeDiagnostico: number;
+  medicacao: string;
+  frequenciaUsoMedicacao: string;
+  responsavel: number;
+}
+
 export interface IPeopleTEAResponsibleResponse {
   usuario: IPeopleTEAResponse;
   responsavel: typeShortResponsible;

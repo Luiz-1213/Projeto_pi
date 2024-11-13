@@ -11,11 +11,21 @@ const Home = () => {
   const [events, setEvents] = useState<IEventResponse[]>([]);
   const { userRole } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const navigate = useNavigate();
 
   // Buscas todos os feedbacks e trata os erros
   useEffect(() => {
-    const fetchFeedbacks = async () => {
+    const url =
+      "https://api.themoviedb.org/4/account/%3C%3Caccount_object_id%3E%3E/lists?page=1";
+    const options = { method: "GET", headers: { accept: "application/json" } };
+
+    fetch(url, options)
+      .then((res) => res.json())
+      .then((json) => console.log(json))
+      .catch((err) => console.error(err));
+
+    const fetchEvents = async () => {
       setIsLoading(true);
       let events;
 
@@ -38,15 +48,22 @@ const Home = () => {
       }
     };
     if (userRole) {
-      fetchFeedbacks();
+      fetchEvents();
     }
-  }, [userRole]);
+  }, [userRole, isModalOpen]);
 
   return (
     <Container
       Children={
         <>
-          {isLoading ? <p>Carregando eventos</p> : <Calendar events={events} />}
+          {isLoading ? (
+            <p>Carregando eventos</p>
+          ) : (
+            <Calendar
+              events={events}
+              isModalOpenStatus={(status) => setIsModalOpen(status)}
+            />
+          )}
         </>
       }
     ></Container>
