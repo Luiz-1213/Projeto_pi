@@ -40,10 +40,10 @@ router.get(
   ResponsavelController.getResponsavelComPessoasTEA
 );
 router.get("/findall", checkFuncionario, ResponsavelController.buscarTodos);
-router.delete(
-  "/remove/:id",
+router.patch(
+  "/toggle/:id",
   checkFuncionario,
-  ResponsavelController.deletarResponsavel
+  ResponsavelController.alternarResponsavel
 );
 
 module.exports = router;

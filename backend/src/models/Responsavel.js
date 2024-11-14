@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../data/conn");
 
-
 const Responsavel = sequelize.define(
   "Responsavel",
   {
@@ -36,9 +35,6 @@ const Responsavel = sequelize.define(
     genero: {
       type: DataTypes.STRING(20),
     },
-    parentesco: {
-      type: DataTypes.STRING(50),
-    },
     telefone: {
       type: DataTypes.STRING(20),
     },
@@ -55,8 +51,13 @@ const Responsavel = sequelize.define(
       type: DataTypes.STRING(100),
     },
     tipoUsuario: {
-      type: DataTypes.ENUM("admin", "funcionario", "responsavel", "pessoaTea"),
+      type: DataTypes.ENUM("responsavel"),
       allowNull: false,
+    },
+    ativo: {
+      type: DataTypes.TINYINT, // Adicionando o campo 'ativo'
+      allowNull: true,
+      defaultValue: 1,
     },
   },
   {
@@ -64,6 +65,5 @@ const Responsavel = sequelize.define(
     timestamps: true,
   }
 );
-
 
 module.exports = Responsavel;

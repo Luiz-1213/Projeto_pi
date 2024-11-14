@@ -2,20 +2,30 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-
 // Componentes
 import Button from "../button/Button";
 import FormControl from "./inputs/FormControl";
 import Checkbox from "./inputs/Checkbox";
 // Estilos
 import styles from "./FormStyles.module.css";
+import { IEventResponse } from "../../interfaces/IEventResponse";
 
-const EventForm = ({ onSubmit, initialValues, btnText }: any) => {
+// Tipagem da Props do Compoennte
+type EventFormProps = {
+  onSubmit: (data: IEventResponse) => void;
+  initialValues: IEventResponse;
+  btnText: string;
+};
+
+const EventForm = ({ onSubmit, initialValues, btnText }: EventFormProps) => {
   // Definindo o schema Zod
   const eventSchema = z.object({
-    assunto: z.string().min(1, "O assunto é obrigatório"),
+    assunto: z
+      .string()
+      .min(1, "O assunto é obrigatório")
+      .max(25, "O assunto deve ter até 25 caracteres"),
     descricao: z.string().min(5, "A breve descrição do evento é obrigatória"),
-    dataEvento: z.string().date(),
+    dataEvento: z.string().date("A data do Evento é obrigatória"),
     horario: z.string().min(1, "O Horário  é obrigatório"),
     local: z.string().min(1, "O local é obrigatório"),
     responsaveis: z
@@ -26,15 +36,7 @@ const EventForm = ({ onSubmit, initialValues, btnText }: any) => {
   // Typando o retorno dos inputs
   type eventSchemaForm = z.infer<typeof eventSchema>;
   const methods = useForm<eventSchemaForm>({
-    defaultValues: {
-      assunto: initialValues.assunto || "",
-      descricao: initialValues.descricao || "",
-      dataEvento: initialValues.dataEvento || "",
-      horario: initialValues.horario || "",
-      local: initialValues.local || "",
-      responsaveis:
-        initialValues.Responsaveis!.map((item: any) => item.id) || [],
-    },
+    defaultValues: initialValues,
     resolver: zodResolver(eventSchema),
   });
 

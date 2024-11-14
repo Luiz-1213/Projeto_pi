@@ -19,7 +19,6 @@ import Container from "../../components/layouts/container/Container"; // compone
 // Styles
 import styles from "./AddFeedback.module.css";
 
-
 const EditFeedback = () => {
   const navigate = useNavigate();
   const [feedback, setFeedback] = useState<IFeedbackResponse>();
@@ -63,6 +62,12 @@ const EditFeedback = () => {
     }
   };
 
+  let defaultValues = {
+    assuntoFeedback: feedback?.assuntoFeedback,
+    descricaoFeedback: feedback?.descricaoFeedback,
+    satisfacao: feedback?.satisfacao,
+  };
+
   return (
     <Container
       Children={
@@ -74,11 +79,13 @@ const EditFeedback = () => {
               conselhos conosco para melhorarmos continuamente.
             </p>
           </div>
-          <FeedbackForm
-            onSubmit={handleEdit}
-            feedbackData={feedback}
-            btnText={"Editar"}
-          ></FeedbackForm>
+          {feedback && (
+            <FeedbackForm
+              onSubmit={handleEdit}
+              initialValues={defaultValues as IFeedbackResponse}
+              btnText={"Editar"}
+            ></FeedbackForm>
+          )}
         </div>
       }
     ></Container>

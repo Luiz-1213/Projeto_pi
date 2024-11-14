@@ -32,10 +32,10 @@ router.patch(
 );
 router.get("/findone/:id", checkFuncionario, PessoaTEAController.buscarPorId);
 router.get("/findall", checkFuncionario, PessoaTEAController.buscarTodos);
-router.delete(
-  "/remove",
+router.patch(
+  "/toggle/:id",
   checkFuncionario,
-  PessoaTEAController.deletarPessoaTEA
+  PessoaTEAController.alternarPessoaTEA
 );
 
 module.exports = router;

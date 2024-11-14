@@ -42,7 +42,6 @@ const AddResponsible = () => {
     senha: undefined,
     confirmasenha: undefined,
     genero: "Feminino",
-    parentesco: "mae",
     telefone: "",
     observacao: "",
     contatoEmergencia: "",

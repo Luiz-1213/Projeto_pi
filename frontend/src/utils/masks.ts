@@ -23,17 +23,3 @@ export const normalizeCPF = (value: string | undefined) => {
 export const normalizeDate = (date: string) => {
   return dayjs(date).format("DD/MM/YYYY");
 };
-
-const parentescoMap: Record<string, string> = {
-  mae: "Mãe",
-  pai: "Pai",
-  avo: "Avó",
-  avo_materno: "Avó Materno",
-  avo_paterno: "Avô Paterno",
-  tio: "Tio",
-  tia: "Tia",
-};
-
-export const normalizeKinship = (relacao: string): string => {
-  return parentescoMap[relacao.toLowerCase()] || relacao;
-};

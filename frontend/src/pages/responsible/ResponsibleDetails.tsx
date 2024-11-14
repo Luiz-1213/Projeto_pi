@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"; //react router
 //services
 import {
   getResponsibleAndDependent,
-  removeResponsible,
+  toggleResponsible,
 } from "../../services/responsavelService";
 // types e interfaces
 import { IResponsibleResponse } from "../../interfaces/IResponsibleResponse";
@@ -58,9 +58,9 @@ const ResponsibleDetails = () => {
     navigate(`/responsavel/edit/${responsible?.id}`);
   };
 
-  const deleteResponsible = async () => {
+  const handleToggleResponsible = async () => {
     //Dispara o evento de delete
-    const data = await removeResponsible(id as string);
+    const data = await toggleResponsible(id as string);
     useToast(data.message as string, data.status);
     if (data && data.status === "sucess") {
       navigate("/registered");
@@ -164,9 +164,9 @@ const ResponsibleDetails = () => {
                   onClick={handleNavigation}
                 ></Button>
                 <Button
-                  text={"Remover"}
-                  stylesType={"danger"}
-                  onClick={deleteResponsible}
+                  text={responsible?.ativo ? "Desativar" : "Ativar"}
+                  stylesType={responsible?.ativo ? "danger" : "save"}
+                  onClick={handleToggleResponsible}
                 ></Button>
               </div>
             </div>

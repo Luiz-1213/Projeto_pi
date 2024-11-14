@@ -26,7 +26,7 @@ const validacoesDeEvento = [
     .trim()
     .notEmpty()
     .withMessage("O campo de horário é obrigatório")
-    .matches(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/)
+    .matches(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
     .withMessage("O horário deve estar no formato HH:MM (24 horas)"),
 
   body("dataEvento")

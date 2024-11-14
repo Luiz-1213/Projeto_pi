@@ -15,9 +15,8 @@ import Container from "../../components/layouts/container/Container";
 // Estilos
 import styles from "./AddFeedback.module.css";
 
-
 const AddFeedback = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // Função para dispara a criação do feedback e tratar a resposta
   const handleCreate = async (data: IFeedbackFormSchema) => {
     try {
@@ -26,11 +25,17 @@ const AddFeedback = () => {
         useToast(response.msgError as string, response.status);
       } else {
         useToast(response.message as string, response.status);
-        navigate('/feedback')
+        navigate("/feedback");
       }
     } catch {
       useToast("Erro ao buscar feedback", "error");
     }
+  };
+
+  let defaultValues = {
+    assuntoFeedback: "",
+    descricaoFeedback: "",
+    satisfacao: 0,
   };
 
   return (
@@ -44,7 +49,11 @@ const AddFeedback = () => {
               conselhos conosco para melhorarmos continuamente.
             </p>
           </div>
-          <FeedbackForm onSubmit={handleCreate} btnText={"Enviar"}></FeedbackForm>
+          <FeedbackForm
+            onSubmit={handleCreate}
+            btnText={"Enviar"}
+            initialValues={defaultValues}
+          />
         </div>
       }
     ></Container>

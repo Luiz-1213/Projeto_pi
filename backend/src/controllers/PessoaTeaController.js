@@ -88,14 +88,7 @@ module.exports = class PessoaTEAController {
     }
 
     const responsavel = await Responsavel.findByPk(usuario.responsavel, {
-      attributes: [
-        "id",
-        "nome",
-        "endereco",
-        "telefone",
-        "contatoEmergencia",
-        "parentesco",
-      ],
+      attributes: ["id", "nome", "endereco", "telefone", "contatoEmergencia"],
     });
 
     if (!responsavel) {
@@ -182,24 +175,31 @@ module.exports = class PessoaTEAController {
       });
   }
 
-  // Deletar PessoaTEA
-  static async deletarPessoaTEA(req, res) {
-    const { id } = req.body;
-
+  //ativar | inativar PessoaTEA
+  static async alternarPessoaTEA(req, res) {
+    const id = req.params.id;
     // Verificar se o usuario existe
     const usuarioExiste = await PessoaTEA.findByPk(id);
     if (!usuarioExiste) {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
 
-    await PessoaTEA.destroy({ where: { id: id } })
+    // Alternar o valor do campo "ativo" (usando operador ternário)
+    const novoValorAtivo = usuarioExiste.ativo === 1 ? 0 : 1;
+
+    // Atualizar o campo "ativo" no banco de dados
+    await PessoaTEA.update({ ativo: novoValorAtivo }, { where: { id: id } })
       .then(() => {
-        res.status(200).json({ message: "Usuário removido com sucesso" });
+        const status = novoValorAtivo === 1 ? "ativado" : "desativado";
+        res.status(200).json({
+          message: `Usuário ${status} com sucesso!`,
+        });
       })
       .catch((error) => {
         res.status(500).json({
           message:
-            "Houve um erro ao deletar o usuário, tente novamente mas tarde",
+            "Houve um erro ao atualizar o status do usuário, tente novamente mais tarde",
+          error: error,
         });
       });
   }

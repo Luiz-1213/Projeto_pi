@@ -26,6 +26,7 @@ export interface IPeopleTEAResponse {
   medicacao: string;
   frequenciaUsoMedicacao: string;
   responsavel: number;
+  ativo: boolean;
 }
 
 export interface IPeopleTEA {

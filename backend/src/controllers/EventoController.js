@@ -52,7 +52,7 @@ module.exports = class EventoController {
       include: [
         {
           model: Responsavel,
-          as: "Responsaveis",
+          as: "responsaveis",
           attributes: ["id"],
           through: {
             attributes: [],
@@ -65,6 +65,34 @@ module.exports = class EventoController {
       return res.status(400).json({ message: "Evento não encontrado!" });
     }
     return res.status(200).json({ eventos });
+  }
+
+  static async buscarEventosPorResponsavel(req, res) {
+    const responsavelId = req.params.id; // Pegando o ID do responsável da URL
+
+    try {
+      const responsavelComEventos = await Responsavel.findOne({
+        where: { id: responsavelId },
+        include: [
+          {
+            model: Evento,
+            as: "eventos",
+            through: {
+              attributes: [],
+            },
+          },
+        ],
+      });
+
+      // Verificar se o responsável foi encontrado
+      if (!responsavelComEventos) {
+        return res.status(404).json({ message: "Responsável não encontrado!" });
+      }
+      return res.status(200).json({ responsavel: responsavelComEventos });
+    } catch (error) {
+      console.error("Erro ao buscar eventos de um responsável:", error);
+      return res.status(500).json({ message: "Erro interno do servidor" });
+    }
   }
 
   // Atualizando evento

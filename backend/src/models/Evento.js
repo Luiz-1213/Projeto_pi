@@ -52,7 +52,7 @@ Evento.belongsToMany(Responsavel, {
     model: "responsavel_has_eventos",
     foreignKey: "eventos_idEvento",
   },
-  as: "Responsaveis",
+  as: "responsaveis",
   timestamps: false,
   onDelete: "CASCADE",
 });
@@ -62,7 +62,7 @@ Responsavel.belongsToMany(Evento, {
     model: "responsavel_has_eventos",
     foreignKey: "responsavel_id",
   },
-  as: "Eventos",
+  as: "eventos",
   timestamps: false,
   onDelete: "CASCADE",
 });

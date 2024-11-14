@@ -1,6 +1,6 @@
 // hooks e bibliotecas de validação
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -14,100 +14,90 @@ import { Rating } from "@mui/material";
 
 // Styles
 import styles from "./FeedForm.module.css";
+import FormControl from "../form/inputs/FormControl";
 
 // Typando com zod
 const FeedbackFormSchema = z.object({
   assuntoFeedback: z.string().min(1, "O assunto é obrigatório"),
   descricaoFeedback: z.string().min(8, "Quantidade minima é de 8 caracteres"),
+  satisfacao: z.number().min(0).max(5),
 });
 
 // Typando o retorno dos inputs
+// Tipando o schema do formulário com Zod
 type FeedbackFormSchema = z.infer<typeof FeedbackFormSchema>;
 
-// Tipando as props do formulario
 type FeedbackFormProps = {
   onSubmit: (data: IFeedbackFormSchema) => void;
-  feedbackData?: IFeedbackResponse;
   btnText: string;
+  initialValues: IFeedbackFormSchema; // Certifique-se de que FeedbackResponse tem todos os campos do formulário
 };
 
 const FeedbackForm = ({
   onSubmit,
-  feedbackData,
+  initialValues,
   btnText,
 }: FeedbackFormProps) => {
-  const [value, setValue] = useState<number>(0);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FeedbackFormSchema>({
+  const [value, setValue] = useState<number>(initialValues.satisfacao || 0); // Inicialize com o valor correto
+  const methods = useForm<FeedbackFormSchema>({
+    defaultValues: initialValues, // Passe os valores iniciais corretamente
     resolver: zodResolver(FeedbackFormSchema),
   });
 
-  // Função de retornar os dados ao componente pai
+  useEffect(() => {
+    // Atualiza o valor de 'satisfacao' no formulário quando o valor for alterado
+    methods.setValue("satisfacao", value);
+  }, [value, methods]);
+
+  // Função para enviar os dados ao componente pai
   function sendFeedback(data: FeedbackFormSchema) {
-    const Feedback: IFeedbackFormSchema = {
+    const feedback: IFeedbackFormSchema = {
       ...data,
       satisfacao: value,
     };
-    onSubmit(Feedback);
+    onSubmit(feedback);
   }
 
   return (
-    <form
-      className={styles.feedback_form}
-      onSubmit={handleSubmit(sendFeedback)}
-    >
-      <div className="form-control">
-        <label htmlFor="assuntoFeedback">
-          Assunto:{" "}
-          {errors.assuntoFeedback && (
-            <span className={styles.error}>
-              {errors.assuntoFeedback?.message}
-            </span>
-          )}
-        </label>
-        <input
-          type="text"
-          {...register("assuntoFeedback")}
+    <FormProvider {...methods}>
+      <form
+        className={styles.feedback_form}
+        onSubmit={methods.handleSubmit(sendFeedback)}
+      >
+        <FormControl
+          name="assuntoFeedback"
+          label="Assunto:"
+          inputType="text"
           placeholder="Digite seu título ou assunto"
-          className={errors.assuntoFeedback ? "input_error" : ""}
-          defaultValue={feedbackData?.assuntoFeedback || ""}
         />
-      </div>
-      <div className="form-control">
-        <label htmlFor="descricaoFeedback">
-          descrição:{" "}
-          {errors.descricaoFeedback && (
-            <span className={styles.error}>
-              {errors.descricaoFeedback?.message}
-            </span>
-          )}
-        </label>
-        <textarea
-          {...register("descricaoFeedback")}
+        <FormControl
+          name="descricaoFeedback"
+          label="Descrição:"
+          inputType="textarea"
           placeholder="Descreva seu feedback..."
-          className={errors.descricaoFeedback ? "input_error" : ""}
-          defaultValue={feedbackData?.descricaoFeedback || ""}
         />
-      </div>
-      <div className={styles.form_control_rating}>
-        <p>Satisfação</p>
-        <Rating
-          name="satisfacao"
-          defaultValue={feedbackData?.satisfacao}
-          precision={0.5}
-          onChange={(_event: React.SyntheticEvent, newValue: number | null) => {
-            if (newValue !== null) {
-              setValue(newValue);
-            }
-          }}
-        />
-      </div>
 
-      <Button type="submit" text={btnText} stylesType="save" />
-    </form>
+        <div className={styles.form_control_rating}>
+          <p>Satisfação</p>
+          <Rating
+            name="satisfacao"
+            value={value} // Use 'value' em vez de 'defaultValue'
+            precision={0.5}
+            onChange={(
+              _event: React.SyntheticEvent,
+              newValue: number | null
+            ) => {
+              if (newValue !== null) {
+                setValue(newValue);
+              }
+            }}
+          />
+        </div>
+
+        <Button type="submit" text={btnText} stylesType="save" />
+      </form>
+    </FormProvider>
   );
 };
+
 export default FeedbackForm;

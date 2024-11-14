@@ -35,7 +35,6 @@ const EditResponsible = () => {
     dataNascimento: responsible?.dataNascimento,
     endereco: responsible?.endereco,
     genero: responsible?.genero,
-    parentesco: responsible?.parentesco,
     telefone: responsible?.telefone,
     observacao: responsible?.contatoEmergencia,
     contatoEmergencia: responsible?.contatoEmergencia,

@@ -198,6 +198,15 @@ const AppRoutes = () => (
         />
       }
     />
+    <Route
+      path="/event/:id"
+      element={
+        <ProtectedRoute
+          element={<EventDetails />}
+          allowedRoles={["administrador", "funcionario", "responsavel"]}
+        />
+      }
+    />
   </Routes>
 );
 

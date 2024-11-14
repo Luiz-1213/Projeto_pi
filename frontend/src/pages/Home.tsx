@@ -5,26 +5,18 @@ import useToast from "../hooks/useToast";
 import { Context } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { IEventResponse } from "../interfaces/IEventResponse";
-import { getAllEvents } from "../services/eventoService";
+import { getAllEvents, getEventByResponsible } from "../services/eventoService";
+import { jwtDecode } from "jwt-decode";
+import { ITokenPayload } from "../interfaces/ITokenPayload";
 
 const Home = () => {
   const [events, setEvents] = useState<IEventResponse[]>([]);
   const { userRole } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(true);
   const navigate = useNavigate();
 
   // Buscas todos os feedbacks e trata os erros
   useEffect(() => {
-    const url =
-      "https://api.themoviedb.org/4/account/%3C%3Caccount_object_id%3E%3E/lists?page=1";
-    const options = { method: "GET", headers: { accept: "application/json" } };
-
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((json) => console.log(json))
-      .catch((err) => console.error(err));
-
     const fetchEvents = async () => {
       setIsLoading(true);
       let events;
@@ -33,7 +25,14 @@ const Home = () => {
         if (userRole === "administrador" || userRole === "funcionario") {
           events = await getAllEvents();
         } else if (userRole === "responsavel") {
-          //events = await getAllEventsForResponsible();
+          const token = localStorage.getItem("token");
+
+          if (token) {
+            const decodedToken = jwtDecode<ITokenPayload>(token);
+            events = await getEventByResponsible(
+              decodedToken.id as unknown as string
+            );
+          }
         }
 
         if (events && events.status === "error") {
@@ -50,20 +49,13 @@ const Home = () => {
     if (userRole) {
       fetchEvents();
     }
-  }, [userRole, isModalOpen]);
+  }, [userRole]);
 
   return (
     <Container
       Children={
         <>
-          {isLoading ? (
-            <p>Carregando eventos</p>
-          ) : (
-            <Calendar
-              events={events}
-              isModalOpenStatus={(status) => setIsModalOpen(status)}
-            />
-          )}
+          {isLoading ? <p>Carregando eventos</p> : <Calendar events={events} />}
         </>
       }
     ></Container>

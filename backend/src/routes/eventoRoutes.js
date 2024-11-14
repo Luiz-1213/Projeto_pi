@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const verifyToken = require("../helpers/verificarToken");
 
 // middlewares de validação
 const {
@@ -20,8 +21,13 @@ router.post(
   errosValidados,
   EventoController.criarEvento
 );
-router.get("/findone/:id", checkFuncionario, EventoController.buscarPorId);
+router.get("/findone/:id", verifyToken, EventoController.buscarPorId);
 router.get("/findall", checkFuncionario, EventoController.buscarTodos);
+router.get(
+  "/findresponsible/:id",
+  verifyToken,
+  EventoController.buscarEventosPorResponsavel
+);
 router.patch(
   "/edit/:id",
   checkFuncionario,

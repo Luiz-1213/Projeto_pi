@@ -46,7 +46,7 @@ const ResponsibleForm = ({
                   if (!list || list.length === 0) return true;
                   const file = list.item(0);
                   if (!file) return false;
-                  const validTypes = ["image/jpg", "image/png"];
+                  const validTypes = ["image/jpeg", "image/png"];
                   return validTypes.includes(file.type);
                 },
                 {
@@ -62,7 +62,7 @@ const ResponsibleForm = ({
                 if (!list || list.length === 0) return false;
                 const file = list.item(0);
                 if (!file) return false;
-                const validTypes = ["image/jpg", "image/png"];
+                const validTypes = ["image/jpeg", "image/png"];
                 return validTypes.includes(file.type);
               },
               {
@@ -81,7 +81,6 @@ const ResponsibleForm = ({
       dataNascimento: z.string().date(),
       endereco: z.string().min(1, "O endereço é obrigatório"),
       genero: z.string(),
-      parentesco: z.string().min(1, "O parentesco é obrigatório"),
       telefone: z.string().min(1, "O telefone é obrigatório"),
       senha: isEditing
         ? z.string().optional()
@@ -227,19 +226,6 @@ const ResponsibleForm = ({
           inputType={"text"}
           placeholder="Ex: (19) 98877-6655"
         />
-        <FormControl
-          name="parentesco"
-          label="Qual o parentesco com a pessoa TEA"
-          inputType={"text"}
-          Component="select"
-        >
-          <option value="mae">Mãe</option>
-          <option value="pai">Pai</option>
-          <option value="avo">Avô ou Avó</option>
-          <option value="tio">Tio ou Tia</option>
-          <option value="responsavel-legal">Responsável</option>
-          <option value="outro">Outro</option>
-        </FormControl>
         <FormControl
           name="horarioDisponivel"
           label="Disponibilidade:"

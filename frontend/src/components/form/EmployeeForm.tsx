@@ -44,7 +44,7 @@ const EmployeeForm = ({
                   if (!list || list.length === 0) return true;
                   const file = list.item(0);
                   if (!file) return false;
-                  const validTypes = ["image/jpg", "image/png"];
+                  const validTypes = ["image/jpeg", "image/png"];
                   return validTypes.includes(file.type);
                 },
                 {
@@ -60,7 +60,7 @@ const EmployeeForm = ({
                 if (!list || list.length === 0) return false;
                 const file = list.item(0);
                 if (!file) return false;
-                const validTypes = ["image/jpg", "image/png"];
+                const validTypes = ["image/jpeg", "image/png"];
                 return validTypes.includes(file.type);
               },
               {

@@ -63,6 +63,11 @@ const PessoaTEA = sequelize.define(
         key: "id",
       },
     },
+    ativo: {
+      type: DataTypes.TINYINT, // Adicionando o campo 'ativo'
+      allowNull: true,
+      defaultValue: 1,
+    },
   },
   {
     tableName: "PessoaTEA",

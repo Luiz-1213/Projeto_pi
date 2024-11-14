@@ -41,6 +41,26 @@ export const getEventById = async (id: string) => {
   }
 };
 
+export const getEventByResponsible = async (id: string) => {
+  const token: string | null = localStorage.getItem("token");
+  let status: string = "sucess";
+  try {
+    const response = await api.get(`/evento/findresponsible/${id}`, {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(token as string)}`,
+      },
+    });
+    console.log("chega assim no front", response.data);
+    let data: IEventResponse = response.data.responsavel.eventos;
+
+    return { data, status };
+  } catch (error: any) {
+    status = "error";
+    let msgError: string = error.response.data.message;
+    return { msgError, status };
+  }
+};
+
 // Criar Evento
 export const createEvent = async (data: any) => {
   const token: string | null = localStorage.getItem("token");
@@ -85,7 +105,7 @@ export const editEvent = async (event: any, id: string) => {
 };
 
 // Remover Evento
-export const remove = async (id: string) => {
+export const remove = async (id: number) => {
   const token: string | null = localStorage.getItem("token");
   let status: string = "sucess";
   try {

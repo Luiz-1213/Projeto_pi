@@ -1,15 +1,20 @@
+// React-router
+import { useNavigate } from "react-router-dom";
+// Services
+import { createEvent } from "../../services/eventoService";
+// Compoentes
 import Container from "../../components/layouts/container/Container";
 import EventForm from "../../components/form/EventForm";
-
+import useToast from "../../hooks/useToast"; // toast de notificação
+// Estilos
 import styles from "../AddPagesStyles.module.css";
-import { createEvent } from "../../services/eventoService";
-import useToast from "../../hooks/useToast";
-import { useNavigate, useParams } from "react-router-dom";
+import { IEventResponse } from "../../interfaces/IEventResponse";
 
 const AddEvent = () => {
   const navigate = useNavigate();
   // Função para dispara a edição
-  const handleCreate = async (data: any) => {
+  const handleCreate = async (data: IEventResponse) => {
+    console.log(data.horario);
     try {
       const response = await createEvent(data);
       if (response && response.status === "error") {
@@ -18,11 +23,19 @@ const AddEvent = () => {
         useToast(response.message as string, response.status);
         navigate("/home");
       }
-      console.log(response);
     } catch {
-      useToast("Erro ao Criar", "error");
-      navigate("/registered");
+      useToast("Erro ao criar Evento", "error");
+      navigate("/home");
     }
+  };
+
+  let defaultValues = {
+    assunto: "",
+    descricao: "",
+    dataEvento: "",
+    horario: "",
+    local: "",
+    responsaveis: [],
   };
 
   return (
@@ -32,7 +45,7 @@ const AddEvent = () => {
           <h1>Criação de Evento</h1>
           <p>Preencha todos os dados para criar um novo evento!</p>
           <EventForm
-            initialValues={""}
+            initialValues={defaultValues}
             btnText="Criar"
             onSubmit={handleCreate}
           />

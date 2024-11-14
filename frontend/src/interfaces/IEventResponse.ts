@@ -1,5 +1,5 @@
 export interface IEventResponse {
-  idEvento: number;
+  idEvento?: number;
   assunto: string;
   descricao: string;
   dataEvento: string;

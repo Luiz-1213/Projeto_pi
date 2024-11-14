@@ -112,11 +112,11 @@ export const editResponsible = async (responsavel: any, id: string) => {
 };
 
 // inativar Reponsavel
-export const removeResponsible = async (id: string) => {
+export const toggleResponsible = async (id: string) => {
   const token: string | null = localStorage.getItem("token");
   let status: string = "sucess";
   try {
-    const response = await api.delete(`/respon/remove/${id}`, {
+    const response = await api.patch(`/respon/toggle/${id}`, {
       headers: {
         Authorization: `Bearer ${JSON.parse(token as string)}`,
       },

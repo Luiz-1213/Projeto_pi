@@ -16,7 +16,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "../../components/button/Button";
 // estilos
 import styles from "../UserDetails.module.css";
-import { normalizeDate, normalizeKinship } from "../../utils/masks";
+import { normalizeDate } from "../../utils/masks";
 
 const PeopleTeaDetails = () => {
   const navigate = useNavigate();
@@ -106,12 +106,6 @@ const PeopleTeaDetails = () => {
                   <p>
                     Responsável: <span>{responsible?.nome}</span>
                   </p>
-                  <p>
-                    Parentesco:
-                    <span>
-                      {normalizeKinship(responsible?.parentesco as string)}
-                    </span>
-                  </p>
                   <p className={styles.full_width}>
                     Endereço: <span>{responsible?.endereco}</span>
                   </p>
@@ -155,8 +149,8 @@ const PeopleTeaDetails = () => {
                   onClick={handleNavigation}
                 ></Button>
                 <Button
-                  text={"Remover"}
-                  stylesType={"danger"}
+                  text={peopletea?.ativo ? "Desativar" : "Ativar"}
+                  stylesType={peopletea?.ativo ? "danger" : "save"}
                   // onClick={deleteResponsavel}
                 ></Button>
               </div>

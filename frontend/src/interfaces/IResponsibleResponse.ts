@@ -6,13 +6,13 @@ export interface IResponsibleResponse {
   cpf: string;
   endereco: string;
   genero: string;
-  parentesco: string;
   telefone: string;
   observacao: string;
   horarioDisponivel: string;
   dataNascimento: string;
   contatoEmergencia: string;
   tipoUsuario: string;
+  ativo: boolean;
 }
 
 export interface IResponsible {
@@ -22,7 +22,6 @@ export interface IResponsible {
   dataNascimento: string;
   endereco: string;
   genero: string;
-  parentesco: string;
   telefone: string;
   contatoEmergencia: string;
   horarioDisponivel: string;
@@ -30,6 +29,7 @@ export interface IResponsible {
   senha?: string | undefined;
   confirmasenha?: string | undefined;
   observacao?: string | undefined;
+  ativo?: boolean;
 }
 
 // Tipo para o responsável
@@ -39,5 +39,4 @@ export type typeShortResponsible = {
   endereco: string;
   telefone: string;
   contatoEmergencia: string;
-  parentesco: string;
 };

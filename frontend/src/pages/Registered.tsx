@@ -18,7 +18,6 @@ import UserContainer from "../components/user/UserContainer";
 import styles from "./Registered.module.css";
 import useToast from "../hooks/useToast";
 import { useNavigate } from "react-router-dom";
-import { normalizeKinship } from "../utils/masks";
 
 const Registered = () => {
   const navigate = useNavigate();
@@ -109,7 +108,7 @@ const Registered = () => {
                   user={user}
                   userPath={user.tipoUsuario}
                   redirect={true}
-                  description={normalizeKinship(user.parentesco)}
+                  description={user.telefone}
                 />
               ))}
             {isActiveTab === "pessoatea" &&

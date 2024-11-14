@@ -12,7 +12,6 @@ module.exports = class ResponsavelController {
       cpf,
       endereco,
       genero,
-      parentesco,
       telefone,
       observacao,
       horarioDisponivel,
@@ -57,7 +56,6 @@ module.exports = class ResponsavelController {
       cpf,
       endereco,
       genero,
-      parentesco,
       telefone,
       observacao,
       horarioDisponivel,
@@ -138,7 +136,6 @@ module.exports = class ResponsavelController {
       cpf,
       endereco,
       genero,
-      parentesco,
       telefone,
       observacao,
       horarioDisponivel,
@@ -183,7 +180,6 @@ module.exports = class ResponsavelController {
       cpf,
       endereco,
       genero,
-      parentesco,
       telefone,
       observacao,
       horarioDisponivel,
@@ -208,8 +204,9 @@ module.exports = class ResponsavelController {
         res.status(500).json({ error: error });
       });
   }
-  // ------------------------ remover responsável
-  static async deletarResponsavel(req, res) {
+  // ------------------------ inativar| ativar responsável
+  // ------------------------ ativar responsável
+  static async alternarResponsavel(req, res) {
     const id = req.params.id;
     // Verificar se o usuario existe
     const usuarioExiste = await Responsavel.findByPk(id);
@@ -217,16 +214,23 @@ module.exports = class ResponsavelController {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
 
-    await Responsavel.destroy({ where: { id: id } })
+    // Alternar o valor do campo "ativo" (usando operador ternário)
+    const novoValorAtivo = usuarioExiste.ativo === 1 ? 0 : 1;
+
+    // Atualizar o campo "ativo" no banco de dados
+    await Responsavel.update({ ativo: novoValorAtivo }, { where: { id: id } })
       .then(() => {
-        res.status(200).json({ message: "Usuário removido com sucesso" });
+        const status = novoValorAtivo === 1 ? "ativado" : "desativado";
+        res.status(200).json({
+          message: `Usuário ${status} com sucesso!`,
+        });
       })
       .catch((error) => {
         res.status(500).json({
           message:
-            "Houve um erro ao deletar o usuário, tente novamente mais tarde",
+            "Houve um erro ao atualizar o status do usuário, tente novamente mais tarde",
+          error: error,
         });
-        console.log(error);
       });
   }
 };

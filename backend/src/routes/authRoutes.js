@@ -7,20 +7,11 @@ const {
   errosValidados,
 } = require("../middlewares/responsavelValidacoes");
 
-
 // controllers
-const AuthController  = require("../controllers/AuthController");
+const AuthController = require("../controllers/AuthController");
 
+router.post("/login", validacaoDelogin, errosValidados, AuthController.login);
 
-
-router.post(
-  "/login",
-  validacaoDelogin,
-  errosValidados,
-  AuthController.login
-);
-
-
-
+router.get("/checkuser", AuthController.checkUser);
 
 module.exports = router;
