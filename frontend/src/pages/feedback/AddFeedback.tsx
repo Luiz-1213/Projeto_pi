@@ -40,7 +40,7 @@ const AddFeedback = () => {
 
   return (
     <Container
-      Children={
+      children={
         <div className={styles.feed_container}>
           <div>
             <h1>Feedback!</h1>

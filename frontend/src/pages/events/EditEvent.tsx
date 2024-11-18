@@ -62,7 +62,7 @@ const EditEvent = () => {
 
   return (
     <Container
-      Children={
+      children={
         <div className={styles.container_bg}>
           <h1>Edição de Evento</h1>
           <p>

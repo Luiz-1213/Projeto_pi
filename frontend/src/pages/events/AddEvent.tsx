@@ -40,7 +40,7 @@ const AddEvent = () => {
 
   return (
     <Container
-      Children={
+      children={
         <div className={styles.container_bg}>
           <h1>Criação de Evento</h1>
           <p>Preencha todos os dados para criar um novo evento!</p>

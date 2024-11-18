@@ -79,7 +79,7 @@ const EditPeopleTea = () => {
 
   return (
     <Container
-      Children={
+      children={
         <div className={styles.container_bg}>
           <h1>Edição de Pessoa TEA</h1>
           <p>

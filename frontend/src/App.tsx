@@ -30,7 +30,6 @@ function App() {
   return (
     <>
       <ToastContainer limit={1} />
-      {authenticated && !isMobile && <Sidebar />}
       <AppRoutes />
     </>
   );

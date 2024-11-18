@@ -76,7 +76,7 @@ const EditResponsible = () => {
   };
   return (
     <Container
-      Children={
+      children={
         <div className={styles.container_bg}>
           <h1>Edição de Responsável</h1>
           <p>

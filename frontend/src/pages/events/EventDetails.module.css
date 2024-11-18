@@ -46,3 +46,29 @@
   display: flex;
   gap: 1rem;
 }
+
+@media (max-width: 400px) {
+  .bg_container {
+    box-shadow: none;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .data {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .data span {
+    max-width: 150px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+  .actions_container {
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+}

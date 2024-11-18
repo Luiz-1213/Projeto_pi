@@ -70,7 +70,7 @@ const EditFeedback = () => {
 
   return (
     <Container
-      Children={
+      children={
         <div className={styles.feed_container}>
           <div>
             <h1>Editando Feedback!</h1>

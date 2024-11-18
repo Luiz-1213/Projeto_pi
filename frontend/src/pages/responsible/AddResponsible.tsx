@@ -50,7 +50,7 @@ const AddResponsible = () => {
 
   return (
     <Container
-      Children={
+      children={
         <div className={styles.container_bg}>
           <h1>Criação de Responsável</h1>
           <p>Preencha todos os dados para realizar o cadastro do Responsável</p>

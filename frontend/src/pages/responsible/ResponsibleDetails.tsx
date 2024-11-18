@@ -68,7 +68,7 @@ const ResponsibleDetails = () => {
   };
   return (
     <Container
-      Children={
+      children={
         <>
           {/* Quando estive carregando */}
           {isLoading ? (

@@ -14,3 +14,22 @@
   overflow-y: scroll;
   gap: 2rem;
 }
+
+@media (max-width: 400px) {
+  .container_bg {
+    box-shadow: none;
+    max-width: 350px;
+    height: 100%;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  .container_bg > h1,
+  .container_bg > p {
+    max-width: 250px;
+  }
+
+  .container_bg > p {
+    text-align: justify;
+  }
+}

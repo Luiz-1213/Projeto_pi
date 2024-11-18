@@ -70,3 +70,38 @@
   display: flex;
   gap: 1rem;
 }
+
+@media (max-width: 400px) {
+  .container_bg {
+    box-shadow: none;
+    height: 100%;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+
+  .sub_title {
+    text-align: center  ;
+  }
+
+  .content {
+    flex-direction: column;
+  }
+
+  .data {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .data span {
+    max-width: 150px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+  .actions_container {
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+}

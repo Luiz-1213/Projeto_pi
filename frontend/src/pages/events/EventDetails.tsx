@@ -16,8 +16,6 @@ const EventoDetails = () => {
   const { id } = useParams();
   const { userRole } = useContext(Context);
 
-
-
   // Buscar os dados do responsavel
   useEffect(() => {
     setIsLoading(true);
@@ -55,7 +53,7 @@ const EventoDetails = () => {
 
   return (
     <Container
-      Children={
+      children={
         <>
           {/* Quando estive carregando */}
           {isLoading ? (

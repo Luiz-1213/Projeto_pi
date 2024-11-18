@@ -64,7 +64,7 @@ const EmployeeDetails = () => {
   };
   return (
     <Container
-      Children={
+      children={
         <>
           {/* Fica em carregamento */}
           {isLoading ? (

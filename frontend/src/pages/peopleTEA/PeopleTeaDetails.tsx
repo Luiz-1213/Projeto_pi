@@ -58,7 +58,7 @@ const PeopleTeaDetails = () => {
 
   return (
     <Container
-      Children={
+      children={
         <>
           {isLoading ? (
             <p>Carregando</p>

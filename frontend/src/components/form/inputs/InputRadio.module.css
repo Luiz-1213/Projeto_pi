@@ -11,11 +11,13 @@
 .input_radio_container > .title {
   color: #00304a;
   margin-bottom: 1rem;
+  text-align: left;
 }
 
 .input_radio_container > .sub_title {
   color: #333;
   margin-bottom: 1rem;
+  text-align: justify;
 }
 
 .option_container {
@@ -44,4 +46,25 @@
 
 .option_item input[type="radio"] {
   margin-left: auto;
+}
+
+@media (max-width: 400px) {
+  .input_radio_container {
+    box-shadow: none;
+    max-width: 300px;
+  }
+
+  .input_radio_container > .title,
+  .input_radio_container > .sub_title {
+    max-width: 250px;
+  }
+
+  .option_container {
+    max-width: 300px;
+    box-shadow: none;
+  }
+
+  .option_item {
+    max-width: 200px;
+  }
 }

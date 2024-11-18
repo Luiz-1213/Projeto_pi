@@ -57,7 +57,7 @@ const Registered = () => {
 
   return (
     <Container
-      Children={
+      children={
         <div className={styles.container_bg}>
           <div className={styles.actions_container}>
             <div className={styles.nav_actions_content}>

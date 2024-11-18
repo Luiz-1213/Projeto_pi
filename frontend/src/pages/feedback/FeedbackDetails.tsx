@@ -60,7 +60,7 @@ const FeedbackDetails = () => {
 
   return (
     <Container
-      Children={
+      children={
         <>
           {feedback ? (
             <div className={styles.feed_container}>
@@ -81,7 +81,9 @@ const FeedbackDetails = () => {
                 </div>
                 <p>
                   <span className={styles.title}>Descrição: </span>
-                  <span>{feedback!.descricaoFeedback}</span>
+                  <span className={styles.description}>
+                    {feedback!.descricaoFeedback}
+                  </span>
                 </p>
               </div>
               {userRole === "responsavel" && (

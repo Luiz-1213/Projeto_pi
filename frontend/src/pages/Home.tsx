@@ -53,7 +53,7 @@ const Home = () => {
 
   return (
     <Container
-      Children={
+      children={
         <>
           {isLoading ? <p>Carregando eventos</p> : <Calendar events={events} />}
         </>

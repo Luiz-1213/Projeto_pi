@@ -75,7 +75,7 @@ const EditEmployee = () => {
 
   return (
     <Container
-      Children={
+      children={
         <div className={styles.container_bg}>
           <h1>Edição de funcionário</h1>
           <p>

@@ -35,3 +35,15 @@
 }
 
 /* Media query para outros dispositivos*/
+@media (max-width: 400px) {
+  .feed_container {
+    box-shadow: none;
+    max-width: 350px;
+    height: 100%;
+  }
+
+  .feed_header {
+    flex-direction: column;
+    max-width: 320px;
+  }
+}

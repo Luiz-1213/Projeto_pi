@@ -45,4 +45,8 @@ h1 {
   .form-control input {
     max-width: 230px;
   }
+
+  select {
+    max-width: 230px;
+  }
 }

@@ -22,3 +22,17 @@
   grid-column: 1 / -1;
   justify-self: center;
 }
+
+@media (max-width: 400px) {
+  .form_container {
+    align-content: center;
+    justify-content: center;
+    max-width: 350px;
+    padding: 30px;
+    place-items: center;
+  }
+
+  .full_width {
+    max-width: 300px;
+  }
+}

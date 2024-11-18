@@ -1,11 +1,15 @@
+import Sidebar from "../sidebar/Sidebar";
 import styles from "./Container.module.css";
-import BackBtn from "../../backBtn/BackBtn";
 
-const Container = ({ Children }: any) => {
+interface ContainerProps {
+  children: React.ReactNode;
+}
+
+const Container = ({ children }: ContainerProps) => {
   return (
     <div className={styles.container}>
-      <BackBtn />
-      {Children}
+      <Sidebar />
+      <div className={styles.content}>{children}</div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 /* Container de background */
 .feed_container {
-  width: 1000px;
+  width: 800px;
   min-height: 500px;
   max-height: 500px;
   border-radius: 12px;
@@ -50,4 +50,34 @@
   margin: 0 auto;
   display: flex;
   gap: 1rem;
+}
+
+.description {
+  max-width: 500px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+/* Media query para outros dispositivos*/
+@media (max-width: 400px) {
+  .feed_container {
+    box-shadow: none;
+    max-width: 330px;
+    height: 100%;
+    padding: 1rem;
+  }
+
+  .feed_content {
+    max-width: 300px;
+  }
+
+  .description {
+    max-width: 200px;
+    word-wrap: break-word; /* Permite a quebra de palavras longas */
+    white-space: normal; /* Garante que o texto quebre em várias linhas */
+  }
+
+  .feed_btn_actions {
+    flex-direction: column;
+  }
 }

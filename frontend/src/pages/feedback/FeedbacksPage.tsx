@@ -60,7 +60,7 @@ const FeedbackContainer = () => {
 
   return (
     <Container
-      Children={
+      children={
         <div className={styles.feed_container}>
           {isLoading ? (
             <p>Carregando feedbacks</p>
