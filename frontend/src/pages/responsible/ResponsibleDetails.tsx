@@ -105,7 +105,7 @@ const ResponsibleDetails = () => {
                   </p>
                 </div>
               </div>
-              <h2 className={styles.sub_title}>informações de Dependente</h2>
+              <h2 className={styles.sub_title}>Informações de Dependente</h2>
               {dependents?.map((dependent: typeShortPeopleTea) => (
                 <div className={styles.content} key={dependent.id}>
                   <div className={styles.photo}>
@@ -138,7 +138,7 @@ const ResponsibleDetails = () => {
                   </div>
                 </div>
               ))}
-              <h2 className={styles.sub_title}>informações de Contato</h2>
+              <h2 className={styles.sub_title}>Informações de Contato</h2>
               <div className={styles.data}>
                 <p>
                   Endereço: <span>{responsible?.endereco}</span>

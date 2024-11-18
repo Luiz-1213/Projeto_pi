@@ -77,6 +77,10 @@ module.exports = class ResponsavelController {
   static async buscarTodos(req, res) {
     const responsaveis = await Responsavel.findAll({
       attributes: { exclude: ["senha", "createAt", "updatedAt"] },
+      order: [
+        ["ativo", "DESC"],
+        ["nome", "ASC"],
+      ],
     });
 
     if (!responsaveis) {
@@ -205,7 +209,7 @@ module.exports = class ResponsavelController {
       });
   }
   // ------------------------ inativar| ativar responsável
-  // ------------------------ ativar responsável
+
   static async alternarResponsavel(req, res) {
     const id = req.params.id;
     // Verificar se o usuario existe

@@ -89,16 +89,6 @@ const validacoesDeResponsavel = [
     )
     .escape(),
 
-  body("parentesco")
-    .trim()
-    .notEmpty()
-    .withMessage("O parentesco não pode estar vazio")
-    .isIn(["pai", "mae", "irmao", "irma", "tio", "avo", "outro"])
-    .withMessage(
-      "O parentesco deve ser um dos seguintes: Pai, Mãe, Irmão, Irmã, Cônjuge, Tio, Tia, Avô, Avó, Outro"
-    )
-    .escape(),
-
   body("telefone")
     .trim()
     .notEmpty()

@@ -77,7 +77,7 @@ const Registered = () => {
               ></Button>
               {userRole === "administrador" && (
                 <Button
-                  text={"Funcionario"}
+                  text={"Funcionário"}
                   stylesType={`${
                     isActiveTab === "funcionario" ? "regular" : "not_active"
                   }`}
@@ -108,7 +108,10 @@ const Registered = () => {
                   user={user}
                   userPath={user.tipoUsuario}
                   redirect={true}
-                  description={user.telefone}
+                  description={
+                    user.ativo ? user.telefone : "Usuário desativado"
+                  }
+                  active={user.ativo}
                 />
               ))}
             {isActiveTab === "pessoatea" &&
@@ -118,7 +121,10 @@ const Registered = () => {
                   user={user}
                   userPath={"pessoatea"}
                   redirect={true}
-                  description={user.diagnostico}
+                  description={
+                    user.ativo ? user.diagnostico : "Usuário desativado"
+                  }
+                  active={user.ativo}
                 />
               ))}
             {userRole === "administrador" && isActiveTab === "funcionario" ? (

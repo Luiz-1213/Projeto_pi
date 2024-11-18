@@ -29,6 +29,7 @@ import EventDetails from "../pages/events/EventDetails"; //3.1 Detalhes do Event
 import AddEvent from "../pages/events/AddEvent"; //3.2 Criação do Evento
 import EditEvent from "../pages/events/EditEvent"; //3.3 Edição do Evento
 import Home from "../pages/Home";
+import NotFound from "../pages/NotFound";
 
 // import Home from "../pages/Home";
 
@@ -36,6 +37,8 @@ const AppRoutes = () => (
   <Routes>
     {/* // 1. página de autenticação */}
     <Route path="/" element={<LoginPage />} />
+    <Route path="/notfound" element={<NotFound />} />
+    <Route path="*" element={<NotFound />} />
     {/* // 2.página de cadastrados */}
     <Route
       path="/registered"

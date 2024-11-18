@@ -2,7 +2,10 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"; //react router
 // Services
-import { getPeopleTeaAndResponsible } from "../../services/pessoaTeaService";
+import {
+  getPeopleTeaAndResponsible,
+  togglePeopleTea,
+} from "../../services/pessoaTeaService";
 // tipos e interfaces
 import { IPeopleTEAResponse } from "../../interfaces/IPeopleTEAResponse";
 import { typeShortResponsible } from "../../interfaces/IResponsibleResponse";
@@ -56,6 +59,15 @@ const PeopleTeaDetails = () => {
     navigate(`/pessoatea/edit/${peopletea?.id}`);
   };
 
+  const handleTogglePeopleTea = async () => {
+    //Dispara o evento de delete
+    const data = await togglePeopleTea(id as string);
+    useToast(data.message as string, data.status);
+    if (data && data.status === "sucess") {
+      navigate("/registered");
+    }
+  };
+
   return (
     <Container
       children={
@@ -100,7 +112,7 @@ const PeopleTeaDetails = () => {
                   </p>
                 </div>
               </div>
-              <h2 className={styles.sub_title}>informações de Contato</h2>
+              <h2 className={styles.sub_title}>Informações de Contato</h2>
               <div className={styles.content}>
                 <div className={styles.data}>
                   <p>
@@ -123,7 +135,7 @@ const PeopleTeaDetails = () => {
                   </p>
                 </div>
               </div>
-              <h2 className={styles.sub_title}>informações de Médicas</h2>
+              <h2 className={styles.sub_title}>Informações de Médicas</h2>
               <div className={styles.data}>
                 <p>
                   Diagnóstico: <span>{peopletea?.diagnostico}</span>
@@ -151,7 +163,7 @@ const PeopleTeaDetails = () => {
                 <Button
                   text={peopletea?.ativo ? "Desativar" : "Ativar"}
                   stylesType={peopletea?.ativo ? "danger" : "save"}
-                  // onClick={deleteResponsavel}
+                  onClick={handleTogglePeopleTea}
                 ></Button>
               </div>
             </div>

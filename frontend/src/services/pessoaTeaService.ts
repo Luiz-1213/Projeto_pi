@@ -89,3 +89,24 @@ export const editPeopleTea = async (data: any, id: string) => {
     return { msgError, status };
   }
 };
+
+// inativar Reponsavel
+export const togglePeopleTea = async (id: string) => {
+  const token: string | null = localStorage.getItem("token");
+  let status: string = "sucess";
+  try {
+    const response = await api.patch(`/tea/toggle/${id}`, {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(token as string)}`,
+      },
+    });
+
+    let message: string = response.data.message;
+
+    return { message, status };
+  } catch (error: any) {
+    status = "error";
+    let msgError: string = error.response.data.message;
+    return { msgError, status };
+  }
+};

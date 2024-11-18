@@ -76,7 +76,7 @@ const PessoaTEA = sequelize.define(
 );
 
 // Definindo a associação
-PessoaTEA.belongsTo(Responsavel, { foreignKey: "id", as: "Eesponsavel" });
+PessoaTEA.belongsTo(Responsavel, { foreignKey: "id", as: "Responsavel" });
 Responsavel.hasMany(PessoaTEA, { foreignKey: "responsavel", as: "PessoaTEA" });
 
 module.exports = PessoaTEA;

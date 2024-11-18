@@ -70,6 +70,10 @@ module.exports = class PessoaTEAController {
   static async buscarTodos(req, res) {
     const usuarios = await PessoaTEA.findAll({
       attributes: { exclude: ["createAt", "updatedAt"] },
+      order: [
+        ["ativo", "DESC"],
+        ["nome", "ASC"],
+      ],
     });
 
     if (!usuarios) {

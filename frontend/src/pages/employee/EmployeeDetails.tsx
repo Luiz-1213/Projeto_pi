@@ -98,7 +98,7 @@ const EmployeeDetails = () => {
                   </p>
                 </div>
               </div>
-              <h2 className={styles.sub_title}>informações de Contato</h2>
+              <h2 className={styles.sub_title}>Informações de Contato</h2>
               <div className={styles.content}>
                 <div className={styles.data}>
                   <p>
@@ -112,7 +112,7 @@ const EmployeeDetails = () => {
                   </p>
                 </div>
               </div>
-              <h2 className={styles.sub_title}>informações de Contrato</h2>
+              <h2 className={styles.sub_title}>Informações de Contrato</h2>
               <div className={styles.data}>
                 <p>
                   Cargo: <span>{employee?.cargo}</span>

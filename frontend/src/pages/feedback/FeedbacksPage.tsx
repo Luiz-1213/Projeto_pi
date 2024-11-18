@@ -77,7 +77,7 @@ const FeedbackContainer = () => {
                   ></Button>
                 </div>
               ) : (
-                <h1>Todos os Feedbakcs</h1>
+                <h1>Todos os Feedbacks</h1>
               )}
               {feedbacks.length === 0 && <p>Não há feedbacks cadastrados!</p>}
 
