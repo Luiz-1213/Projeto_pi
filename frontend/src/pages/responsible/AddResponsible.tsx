@@ -9,7 +9,7 @@ import Container from "../../components/layouts/container/Container";
 import ResponsibleForm from "../../components/form/ResponsibleForm";
 // Estilos
 import styles from "../AddPagesStyles.module.css";
-import { IResponsible } from "../../interfaces/IResponsibleResponse";
+
 
 const AddResponsible = () => {
   const navigate = useNavigate();

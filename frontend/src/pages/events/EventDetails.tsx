@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "../../components/button/Button";
 import styles from "./EventDetails.module.css";
 import { useNavigate, useParams } from "react-router-dom";

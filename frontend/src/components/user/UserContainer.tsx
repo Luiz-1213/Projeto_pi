@@ -1,4 +1,3 @@
-import React from "react";
 import NewTabBtn from "../newTabBtn/NewTabBtn";
 import { IResponsibleResponse } from "../../interfaces/IResponsibleResponse";
 import { Avatar } from "@mui/material";

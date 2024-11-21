@@ -5,7 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // interfaces
-import { IFeedbackResponse } from "../../interfaces/IFeedbackResponse";
+
 import { IFeedbackFormSchema } from "../../interfaces/IFeedbackFormSchema";
 
 // Componentes

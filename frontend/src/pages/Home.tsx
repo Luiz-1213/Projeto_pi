@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Container from "../components/layouts/container/Container";
 import Calendar from "../components/calendar/Calendar";
 import useToast from "../hooks/useToast";
 import { Context } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
+
 import { IEventResponse } from "../interfaces/IEventResponse";
 import { getAllEvents, getEventByResponsible } from "../services/eventoService";
 import { jwtDecode } from "jwt-decode";
@@ -13,7 +13,6 @@ const Home = () => {
   const [events, setEvents] = useState<IEventResponse[]>([]);
   const { userRole } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   // Buscas todos os feedbacks e trata os erros
   useEffect(() => {
