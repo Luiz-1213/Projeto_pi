@@ -257,7 +257,7 @@ const EmployeeForm = ({
         />
         <FormControl
           name="voluntario"
-          label="Voluntario para Atividades?"
+          label="Voluntário para Atividades?"
           inputType={"text"}
           Component="select"
         >

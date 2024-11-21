@@ -11,9 +11,9 @@
   padding: 3rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 /* Container de conteudo do feedback */
@@ -52,19 +52,26 @@
   gap: 1rem;
 }
 
+.feed_content {
+  max-width: 400px;
+}
+
 .description {
-  max-width: 500px;
+  max-width: 200px;
   word-wrap: break-word;
   white-space: normal;
 }
 
 /* Media query para outros dispositivos*/
-@media (max-width: 400px) {
+@media (max-width: 800px) {
   .feed_container {
+    align-items: center;
+    justify-content: center;
     box-shadow: none;
-    max-width: 330px;
+    max-width: 350px;
     height: 100%;
     padding: 1rem;
+    overflow-y: auto;
   }
 
   .feed_content {
@@ -79,5 +86,19 @@
 
   .feed_btn_actions {
     flex-direction: column;
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .feed_container p {
+    font-size: 0.8rem;
+  }
+
+  .feed_content {
+    max-width: 280px;
+  }
+  .title {
+    font-size: 0.9rem;
   }
 }

@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 845px;
+  width: 600px;
   height: 100px;
   padding: 1rem 2rem;
   border-radius: 12px;
@@ -27,7 +27,14 @@
   margin: 0.5rem auto;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 920px) {
+  .feedback_container {
+    max-width: 400px;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 800px) {
   .feedback_container {
     max-width: 320px;
     padding: 0.5rem 1rem;

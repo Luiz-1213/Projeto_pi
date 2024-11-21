@@ -38,8 +38,19 @@
   font-size: 1.5rem;
   text-align: center;
 }
+@media (max-width: 800px) {
+  .actions_container {
+    max-width: 400px;
+    gap: 0.5rem;
+  }
 
-@media (max-width: 400px) {
+  .nav_actions_content {
+    display: none;
+    margin-top: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
   .container_bg {
     width: 350px;
     box-shadow: none;
@@ -48,7 +59,7 @@
     display: flex;
     max-width: 300px;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
   }
 
   .nav_actions_content {

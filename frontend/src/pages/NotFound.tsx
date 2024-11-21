@@ -1,6 +1,5 @@
-import React from "react";
 import styles from "./NotFound.module.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/button/Button";
 
 const NotFound = () => {
@@ -14,9 +13,13 @@ const NotFound = () => {
             text={"Voltar a Home"}
             stylesType={"regular"}
             onClick={() => {
-              navigate("/");
+              navigate("/home");
             }}
           ></Button>
+          <p>
+            Não está autenticado? <Link to="/">Clique aqui</Link> e siga para
+            Login
+          </p>
         </div>
       </div>
     </div>

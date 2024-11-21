@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/UserContext";
 // Images
 import imgLogo from "/logo.png";
-import userPhoto from "/logo.png";
 
 // Styles
 import styles from "./Sidebar.module.css";
@@ -37,8 +36,23 @@ const Sidebar = () => {
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
-    console.log(isOpen);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 600) {
+        setIsOpen(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>

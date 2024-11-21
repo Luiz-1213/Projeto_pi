@@ -18,8 +18,14 @@ import FormControl from "../form/inputs/FormControl";
 
 // Typando com zod
 const FeedbackFormSchema = z.object({
-  assuntoFeedback: z.string().min(1, "O assunto é obrigatório"),
-  descricaoFeedback: z.string().min(8, "Quantidade minima é de 8 caracteres"),
+  assuntoFeedback: z
+    .string()
+    .min(1, "O assunto é obrigatório")
+    .max(25, "O limite é de 25 caracteres"),
+  descricaoFeedback: z
+    .string()
+    .min(8, "Quantidade minima é de 8 caracteres")
+    .max(200, "O limite é de 200 caracteres"),
   satisfacao: z.number().min(0).max(5),
 });
 

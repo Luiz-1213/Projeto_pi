@@ -14,5 +14,19 @@
   padding: 2rem;
 }
 
+:global(.rbc-toolbar) {
+  margin-bottom: 1.5rem;
+}
 
-
+/* Responsividade */
+@media (max-width: 800px) {
+  :global(.rbc-toolbar) {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 15px;
+  }
+  :global(.rbc-time-view) {
+    max-width: 350px;
+  }
+}

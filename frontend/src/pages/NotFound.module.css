@@ -10,5 +10,26 @@
 }
 
 .nav_button {
-  margin-bottom: 30vh;
+  margin-bottom: 29vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav_button > p {
+  font-weight: 600;
+  max-width: 300px;
+  text-align: center;
+}
+
+.nav_button > p > a {
+  color: #00304a;
+  border-bottom: 1px solid #00304a;
+  transition: 0.5s;
+}
+
+.nav_button a:hover {
+  color: #6194fa;
+  border-bottom: 1px solid #6194fa;
 }

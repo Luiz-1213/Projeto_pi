@@ -42,11 +42,25 @@
 
 /* Container de formulario */
 .login_form {
+  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   gap: 1.5rem;
+}
+
+.login_form > p > a {
+  color: #00304a;
+  border-bottom: 1px solid #00304a;
+  transition: 0.5s;
+  font-weight: bold;
+}
+
+.login_form a:hover {
+  color: #6194fa;
+  border-bottom: 1px solid #6194fa;
 }
 
 .login_form > form {

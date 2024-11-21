@@ -48,7 +48,7 @@
   margin-left: auto;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 800px) {
   .input_radio_container {
     box-shadow: none;
     max-width: 300px;
@@ -66,5 +66,14 @@
 
   .option_item {
     max-width: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .option_item > span {
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

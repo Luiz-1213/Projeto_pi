@@ -11,7 +11,7 @@
   flex-direction: column;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 800px) {
   .input_file_container {
     flex-direction: column;
     max-width: 300px;
@@ -20,3 +20,5 @@
     max-width: 230px;
   }
 }
+
+

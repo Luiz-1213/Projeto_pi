@@ -35,11 +35,18 @@
 }
 
 /* Media query para outros dispositivos*/
-@media (max-width: 400px) {
+@media (max-width: 1000px) {
+  .feed_header {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 800px) {
   .feed_container {
     box-shadow: none;
     max-width: 350px;
     height: 100%;
+    overflow-y: auto;
   }
 
   .feed_header {

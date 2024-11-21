@@ -15,6 +15,7 @@ import styles from "./LoginPage.module.css";
 // Images
 import imgLogo from "/logo.png";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 // Schema de Login
 const LoginFormSchema = z.object({
@@ -29,7 +30,7 @@ const LoginFormSchema = z.object({
 type LoginFormSchema = z.infer<typeof LoginFormSchema>;
 
 const LoginPage = () => {
-  const { login } = useContext(Context); //metodo para login no context
+  const { login, authenticated } = useContext(Context); //metodo para login no context
 
   const {
     register,
@@ -52,33 +53,48 @@ const LoginPage = () => {
           </div>
         </div>
         <div className={styles.login_form}>
-          <h1>Seja bem-vindo!</h1>
-          <p>Preencha as informações abaixo para fazer login.</p>
-          <form onSubmit={handleSubmit(authUser)}>
-            <div className="form-control">
-              <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                {...register("email")}
-                placeholder="Digite seu e-mail"
-                className={errors.email ? "input_error" : ""}
-              />
-              {errors.email && (
-                <span className={styles.error}>{errors.email?.message}</span>
-              )}
-            </div>
-            <div className="form-control">
-              <label htmlFor="senha">Senha:</label>
-              <input
-                type="password"
-                {...register("senha")}
-                placeholder="Digite sua senha"
-                className={errors.senha ? "input_error" : ""}
-              />
-              <span className={styles.error}>{errors.senha?.message}</span>
-            </div>
-            <Button type="submit" text="Entrar" stylesType="regular" />
-          </form>
+          {authenticated ? (
+            <>
+              {" "}
+              <h1>Já autenticado</h1>
+              <p>Você já está autenticado</p>
+              <p>
+                <Link to="/home">Clique aqui</Link> para ir a Home
+              </p>
+            </>
+          ) : (
+            <>
+              <h1>Seja bem-vindo!</h1>
+              <p>Preencha as informações abaixo para fazer login.</p>
+              <form onSubmit={handleSubmit(authUser)}>
+                <div className="form-control">
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    type="email"
+                    {...register("email")}
+                    placeholder="Digite seu e-mail"
+                    className={errors.email ? "input_error" : ""}
+                  />
+                  {errors.email && (
+                    <span className={styles.error}>
+                      {errors.email?.message}
+                    </span>
+                  )}
+                </div>
+                <div className="form-control">
+                  <label htmlFor="senha">Senha:</label>
+                  <input
+                    type="password"
+                    {...register("senha")}
+                    placeholder="Digite sua senha"
+                    className={errors.senha ? "input_error" : ""}
+                  />
+                  <span className={styles.error}>{errors.senha?.message}</span>
+                </div>
+                <Button type="submit" text="Entrar" stylesType="regular" />
+              </form>
+            </>
+          )}
         </div>
       </div>
     </div>

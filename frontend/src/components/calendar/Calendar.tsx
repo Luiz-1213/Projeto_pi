@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import  { useState, useEffect, useContext } from "react";
 import { Calendar as BigCalendar, dayjsLocalizer } from "react-big-calendar";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br"; // Aqui você importa o locale para português
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { IEventResponse } from "../../interfaces/IEventResponse";
-import EventoDetails from "../../pages/events/EventDetails";
+
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Button from "../button/Button";
