@@ -18,6 +18,7 @@ import Container from "../../components/layouts/container/Container";
 import styles from "./FeedbacksPage.module.css";
 import Button from "../../components/button/Button";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
 
 const FeedbackContainer = () => {
   const [feedbacks, setFeedbacks] = useState<IFeedbackResponse[]>([]);
@@ -63,7 +64,7 @@ const FeedbackContainer = () => {
       children={
         <div className={styles.feed_container}>
           {isLoading ? (
-            <p>Carregando feedbacks</p>
+            <Loader />
           ) : (
             <>
               {userRole === "responsavel" ? (

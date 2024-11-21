@@ -160,7 +160,6 @@ module.exports = class FuncionarioController {
       qtdCadastroEvento,
       voluntario,
       horarioTrabalho,
-      tipoUsuario: "funcionario",
     };
 
     if (foto !== null) {

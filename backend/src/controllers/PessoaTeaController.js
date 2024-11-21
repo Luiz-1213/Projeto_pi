@@ -188,8 +188,12 @@ module.exports = class PessoaTEAController {
       return res.status(404).json({ message: "Usuario não existe!" });
     }
 
+    console.log(" antes da edição", usuarioExiste.ativo);
+
     // Alternar o valor do campo "ativo" (usando operador ternário)
     const novoValorAtivo = usuarioExiste.ativo === 1 ? 0 : 1;
+
+    console.log(novoValorAtivo);
 
     // Atualizar o campo "ativo" no banco de dados
     await PessoaTEA.update({ ativo: novoValorAtivo }, { where: { id: id } })

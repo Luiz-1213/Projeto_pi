@@ -11,6 +11,7 @@ import Container from "../../components/layouts/container/Container";
 import useToast from "../../hooks/useToast"; //toast de notificação
 // Estilos
 import styles from "../AddPagesStyles.module.css";
+import Loader from "../../components/loader/Loader";
 
 const EditEvent = () => {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ const EditEvent = () => {
             campos!
           </p>
           {!event ? (
-            <p>Carregando dados...</p>
+            <Loader />
           ) : (
             <EventForm
               initialValues={defaultValues as IEventResponse}

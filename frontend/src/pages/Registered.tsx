@@ -20,11 +20,11 @@ import styles from "./Registered.module.css";
 import useToast from "../hooks/useToast";
 import { useNavigate } from "react-router-dom";
 
+// Dropdown
 import { Dropdown } from "@mui/base/Dropdown";
 import { MenuButton } from "@mui/base/MenuButton";
 import { Menu } from "@mui/base/Menu";
 import { MenuItem } from "@mui/base/MenuItem";
-import { useTheme } from "@mui/system";
 
 const Registered = () => {
   const navigate = useNavigate();
@@ -102,7 +102,7 @@ const Registered = () => {
 
 
     .TriggerButtonSimple {
-        display: none;
+      display: none;
       width: 200px;
       font-weight: 600;
       font-size: 1rem;
@@ -137,7 +137,7 @@ const Registered = () => {
     }
 
     @media (max-width: 800px) {
-         .TriggerButtonSimple {
+      .TriggerButtonSimple {
         display: block}
   }
     `}</style>

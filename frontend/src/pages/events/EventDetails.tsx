@@ -8,6 +8,7 @@ import useToast from "../../hooks/useToast";
 import { IEventResponse } from "../../interfaces/IEventResponse";
 import Container from "../../components/layouts/container/Container";
 import { Context } from "../../context/UserContext";
+import Loader from "../../components/loader/Loader";
 
 const EventoDetails = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const EventoDetails = () => {
         <>
           {/* Quando estive carregando */}
           {isLoading ? (
-            <p>Carregando</p>
+            <Loader />
           ) : (
             // Depois de carregado
             <div className={styles.bg_container}>

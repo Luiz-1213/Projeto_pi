@@ -20,6 +20,7 @@ import Button from "../../components/button/Button";
 // estilos
 import styles from "../UserDetails.module.css";
 import { normalizeDate } from "../../utils/masks";
+import Loader from "../../components/loader/Loader";
 
 const PeopleTeaDetails = () => {
   const navigate = useNavigate();
@@ -62,6 +63,7 @@ const PeopleTeaDetails = () => {
   const handleTogglePeopleTea = async () => {
     //Dispara o evento de delete
     const data = await togglePeopleTea(id as string);
+
     useToast(data.message as string, data.status);
     if (data && data.status === "sucess") {
       navigate("/registered");
@@ -73,7 +75,7 @@ const PeopleTeaDetails = () => {
       children={
         <>
           {isLoading ? (
-            <p>Carregando</p>
+            <Loader />
           ) : (
             <div className={styles.container_bg}>
               <h1 className={styles.sub_title}>Informações da Pessoa TEA</h1>

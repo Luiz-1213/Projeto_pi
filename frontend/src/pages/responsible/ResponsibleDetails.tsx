@@ -18,6 +18,7 @@ import Button from "../../components/button/Button";
 // Estilos
 import styles from "../UserDetails.module.css";
 import { normalizeDate } from "../../utils/masks";
+import Loader from "../../components/loader/Loader";
 
 const ResponsibleDetails = () => {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ const ResponsibleDetails = () => {
         <>
           {/* Quando estive carregando */}
           {isLoading ? (
-            <p>Carregando</p>
+            <Loader />
           ) : (
             // Depois de carregado
             <div className={styles.container_bg}>

@@ -76,10 +76,10 @@ module.exports = class FeedbackController {
 
   static async editarFeedback(req, res) {
     // recebe os dados de edição
-    
+
     const { id, assuntoFeedback, descricaoFeedback, satisfacao } = req.body;
     const feedback = await Feedback.findByPk(id);
-    
+
     if (!feedback) {
       return res.status(404).json({ message: "Feedback não encontrado!" });
     }
@@ -120,29 +120,34 @@ module.exports = class FeedbackController {
     }
   }
 
-  static async BuscarPorReponsavel(req, res) {
+  static async BuscarPorResponsavel(req, res) {
     const token = await pegarToken(req);
     const decodificado = jwt.verify(token, process.env.SECRET_JWT);
 
     if (decodificado.tipoUsuario !== "responsavel") {
       return res.status(401).json({
-        message: "Metodo invalido para seu tipo usuário",
+        message: "Metodo inválido para seu tipo usuário",
       });
     }
 
-    const feedbacks = await Feedback.findAll({
-      attributes: { exclude: ["responsavelId"] },
-    }).catch((error) => {
-      return res.status(500).json({ message: error });
-    });
+    try {
+      const feedbacks = await Feedback.findAll({
+        where: { responsavelId: decodificado.id },
+        attributes: { exclude: ["responsavelId"] },
+      });
 
-    if (!feedbacks) {
-      return res.status(200).json({ message: "Não há feedbacks enviados" });
-    } else {
+      if (feedbacks.length === 0) {
+        return res.status(200).json({ message: "Não há feedbacks enviados" });
+      }
+
       return res.status(200).json({ feedbacks });
+    } catch (error) {
+      console.error("Erro ao buscar feedbacks:", error);
+      return res
+        .status(500)
+        .json({ message: "Erro interno do servidor", error });
     }
   }
-
   // ------------------------ remover feedback
   static async deletarFeedback(req, res) {
     const id = req.params.id;
